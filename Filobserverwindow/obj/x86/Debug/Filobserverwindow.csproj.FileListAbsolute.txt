@@ -1,0 +1,14 @@
+D:\DateiDrucker\Fileobserver\Filobserverwindow\bin\Debug\Filobserverwindow.exe
+D:\DateiDrucker\Fileobserver\Filobserverwindow\bin\Debug\Filobserverwindow.pdb
+D:\DateiDrucker\Fileobserver\Filobserverwindow\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\DateiDrucker\Fileobserver\Filobserverwindow\obj\x86\Debug\Filobserverwindow.MainForm.resources
+D:\DateiDrucker\Fileobserver\Filobserverwindow\obj\x86\Debug\Filobserverwindow.csproj.GenerateResource.Cache
+D:\DateiDrucker\Fileobserver\Filobserverwindow\obj\x86\Debug\Filobserverwindow.exe
+D:\DateiDrucker\Fileobserver\Filobserverwindow\obj\x86\Debug\Filobserverwindow.pdb
+C:\Users\André\Documents\GitHub\C-printer\Filobserverwindow\obj\x86\Debug\Filobserverwindow.exe
+C:\Users\André\Documents\GitHub\C-printer\Filobserverwindow\obj\x86\Debug\Filobserverwindow.pdb
+C:\Users\André\Documents\GitHub\C-printer\Filobserverwindow\bin\Debug\Filobserverwindow.exe
+C:\Users\André\Documents\GitHub\C-printer\Filobserverwindow\bin\Debug\Filobserverwindow.pdb
+C:\Users\André\Documents\GitHub\C-printer\Filobserverwindow\obj\x86\Debug\Filobserverwindow.csprojResolveAssemblyReference.cache
+C:\Users\André\Documents\GitHub\C-printer\Filobserverwindow\obj\x86\Debug\Filobserverwindow.MainForm.resources
+C:\Users\André\Documents\GitHub\C-printer\Filobserverwindow\obj\x86\Debug\Filobserverwindow.csproj.GenerateResource.Cache

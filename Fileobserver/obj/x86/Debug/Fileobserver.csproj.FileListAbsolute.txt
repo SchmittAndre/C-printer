@@ -1,0 +1,7 @@
+D:\DateiDrucker\Fileobserver\Fileobserver\bin\Debug\Fileobserver.exe
+D:\DateiDrucker\Fileobserver\Fileobserver\bin\Debug\Fileobserver.pdb
+D:\DateiDrucker\Fileobserver\Fileobserver\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\DateiDrucker\Fileobserver\Fileobserver\obj\x86\Debug\Fileobserver.exe
+D:\DateiDrucker\Fileobserver\Fileobserver\obj\x86\Debug\Fileobserver.pdb
+C:\Users\André\Documents\GitHub\C-printer\Fileobserver\obj\x86\Debug\Fileobserver.exe
+C:\Users\André\Documents\GitHub\C-printer\Fileobserver\obj\x86\Debug\Fileobserver.pdb

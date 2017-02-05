@@ -1,0 +1,9 @@
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\bin\Debug\msdnprintbsp.exe.config
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\bin\Debug\msdnprintbsp.exe
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\bin\Debug\msdnprintbsp.pdb
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\obj\Debug\msdnprintbsp.csprojResolveAssemblyReference.cache
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\obj\Debug\msdnprintbsp.Form1.resources
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\obj\Debug\msdnprintbsp.Properties.Resources.resources
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\obj\Debug\msdnprintbsp.csproj.GenerateResource.Cache
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\obj\Debug\msdnprintbsp.exe
+C:\Users\André\Documents\GitHub\C-printer\msdnprintbsp\obj\Debug\msdnprintbsp.pdb
