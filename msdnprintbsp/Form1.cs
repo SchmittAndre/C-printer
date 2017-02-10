@@ -16,56 +16,72 @@ namespace msdnprintbsp
         {
             InitializeComponent();
         }
-
+        
         System.IO.StreamReader fileToPrint;
-        System.Drawing.Font printFont;
-        System.Drawing.SolidBrush printColor;
+        string strtoprint;
+        System.Drawing.Font printFont = new Font("Areal0", 10);
+        SolidBrush printColor = new SolidBrush(Color.Black);
 
         private void printButton_Click(object sender, EventArgs e)
         {
             string printPath = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            fileToPrint = new System.IO.StreamReader(printPath + @"\myFile.txt");
-            printDocument1.Print();
+            using (fileToPrint = new System.IO.StreamReader(printPath + @"\myFile.txt"))
+            {
+                strtoprint = fileToPrint.ReadToEnd();
+            }
+
+            Encoding unicode = Encoding.GetEncoding(852);
+            Encoding ascii = Encoding.Unicode;
+            
+            // Convert the string into a byte array.
+            byte[] unicodeBytes = unicode.GetBytes(strtoprint);
+
+            // Perform the conversion from one encoding to the other.
+            byte[] asciiBytes = Encoding.Convert(unicode, ascii, unicodeBytes);
+
+            // Convert the new byte[] into a char[] and then into a string.
+            char[] asciiChars = new char[ascii.GetCharCount(asciiBytes, 0, asciiBytes.Length)];
+            ascii.GetChars(asciiBytes, 0, asciiBytes.Length, asciiChars, 0);
+            string asciiString = new string(asciiChars);
+
+            // Display the strings created before and after the conversion.
+            Console.WriteLine("Original string: {0}", strtoprint);
+            Console.WriteLine("Ascii converted string: {0}", asciiString);
+
+            DialogResult result = printDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                printDocument1.Print();
+            }
             fileToPrint.Close();
+
+
         }
         private void B_File_Click(object sender, EventArgs e)
         {
-
             fontDialog1.ShowDialog();
             printFont = fontDialog1.Font;
+            
         }
 
         private void B_Color_Click(object sender, EventArgs e)
         {
             colorDialog1.ShowDialog();
             printColor = new SolidBrush(colorDialog1.Color);
+
+           
         }
   
 
     private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            float yPos = 0f;
-            int count = 0;
-            float leftMargin = e.MarginBounds.Left;
-            float topMargin = e.MarginBounds.Top;
-            string line = null;
-            float FontHeight = printFont.GetHeight(e.Graphics);
-            float linesPerPage = e.MarginBounds.Height / FontHeight;
-            while (count < linesPerPage)
-            {
-                line = fileToPrint.ReadLine();
-                if (line == null)
-                {
-                    break;
-                }
-                yPos = topMargin + count * printFont.GetHeight(e.Graphics);
-                e.Graphics.DrawString(line, printFont, printColor, leftMargin, yPos, new StringFormat());
-                count++;
-            }
-            if (line != null)
-            {
-                e.HasMorePages = true;
-            }
+            int charactersOnPage = 0;
+            int linesPerPage = 0;
+            e.Graphics.MeasureString(strtoprint, printFont, e.MarginBounds.Size, StringFormat.GenericTypographic, out charactersOnPage, out linesPerPage);
+
+            e.Graphics.DrawString(strtoprint, printFont, printColor, e.MarginBounds, StringFormat.GenericTypographic);
+            strtoprint = strtoprint.Substring(charactersOnPage);
+            e.HasMorePages = (strtoprint.Length > 0);
         }
 
         private void B_Pagesetting_Click(object sender, EventArgs e)

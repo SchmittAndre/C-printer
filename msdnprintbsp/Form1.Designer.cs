@@ -36,6 +36,7 @@
             this.B_Coloredialog = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.B_Pagesetting = new System.Windows.Forms.Button();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.SuspendLayout();
             // 
             // printButton
@@ -58,7 +59,7 @@
             this.B_Fontdialog.Name = "B_Fontdialog";
             this.B_Fontdialog.Size = new System.Drawing.Size(75, 23);
             this.B_Fontdialog.TabIndex = 1;
-            this.B_Fontdialog.Text = "Font";
+            this.B_Fontdialog.Text = "Print Dialog";
             this.B_Fontdialog.UseVisualStyleBackColor = true;
             this.B_Fontdialog.Click += new System.EventHandler(this.B_File_Click);
             // 
@@ -81,6 +82,12 @@
             this.B_Pagesetting.Text = "Pagesettings";
             this.B_Pagesetting.UseVisualStyleBackColor = true;
             this.B_Pagesetting.Click += new System.EventHandler(this.B_Pagesetting_Click);
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.AllowPrintToFile = false;
+            this.printDialog1.Document = this.printDocument1;
+            this.printDialog1.UseEXDialog = true;
             // 
             // Form1
             // 
@@ -107,6 +114,7 @@
         private System.Windows.Forms.Button B_Coloredialog;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button B_Pagesetting;
+        private System.Windows.Forms.PrintDialog printDialog1;
     }
 }
 
