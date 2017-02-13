@@ -29,7 +29,8 @@ namespace Filobserverwindow
         private Font printFont;
         private SolidBrush printColor;
         printer Printer = new printer();
-        
+        PrintDialog printDialog1 = new PrintDialog();
+
         public MainForm()
         {
             InitializeComponent();
@@ -116,13 +117,17 @@ namespace Filobserverwindow
 
         private void B_pageSettup_Click(object sender, EventArgs e)
         {
-            this.pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
-            this.pageSetupDialog1.PrinterSettings = this.printDocument1.PrinterSettings;
+            pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
+            pageSetupDialog1.Document = printDocument1;
             this.pageSetupDialog1.ShowDialog();
-            if (this.pageSetupDialog1.PageSettings != null)
-            {
-                this.printDocument1.DefaultPageSettings = this.pageSetupDialog1.PageSettings;
-            }
+        }
+
+        private void chosePrinter_Click(object sender, EventArgs e)
+        {
+            PrintDialog printDialog1 = new PrintDialog();
+            printDialog1.Document = printDocument1;
+            DialogResult result = printDialog1.ShowDialog();
+          
         }
     }
 

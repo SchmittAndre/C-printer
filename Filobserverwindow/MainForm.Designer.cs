@@ -38,6 +38,12 @@ namespace Filobserverwindow
     {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupFonts = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.TextPeview = new System.Windows.Forms.Label();
+            this.B_pageSettup = new System.Windows.Forms.Button();
+            this.B_Color = new System.Windows.Forms.Button();
+            this.B_Fonts = new System.Windows.Forms.Button();
             this.settingsgroupbox = new System.Windows.Forms.GroupBox();
             this.delaytime1 = new System.Windows.Forms.NumericUpDown();
             this.startobserver = new System.Windows.Forms.Button();
@@ -51,17 +57,12 @@ namespace Filobserverwindow
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.groupFonts = new System.Windows.Forms.GroupBox();
-            this.B_Fonts = new System.Windows.Forms.Button();
-            this.B_Color = new System.Windows.Forms.Button();
-            this.B_pageSettup = new System.Windows.Forms.Button();
-            this.TextPeview = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.chosePrinter = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupFonts.SuspendLayout();
             this.settingsgroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaytime1)).BeginInit();
-            this.groupFonts.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -85,6 +86,69 @@ namespace Filobserverwindow
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupFonts
+            // 
+            this.groupFonts.Controls.Add(this.chosePrinter);
+            this.groupFonts.Controls.Add(this.label2);
+            this.groupFonts.Controls.Add(this.TextPeview);
+            this.groupFonts.Controls.Add(this.B_pageSettup);
+            this.groupFonts.Controls.Add(this.B_Color);
+            this.groupFonts.Controls.Add(this.B_Fonts);
+            this.groupFonts.Location = new System.Drawing.Point(287, 7);
+            this.groupFonts.Name = "groupFonts";
+            this.groupFonts.Size = new System.Drawing.Size(239, 281);
+            this.groupFonts.TabIndex = 1;
+            this.groupFonts.TabStop = false;
+            this.groupFonts.Text = "Fonts";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 130);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Vorschau:";
+            // 
+            // TextPeview
+            // 
+            this.TextPeview.AutoSize = true;
+            this.TextPeview.Location = new System.Drawing.Point(68, 130);
+            this.TextPeview.Name = "TextPeview";
+            this.TextPeview.Size = new System.Drawing.Size(55, 13);
+            this.TextPeview.TabIndex = 3;
+            this.TextPeview.Text = "platzhalter";
+            // 
+            // B_pageSettup
+            // 
+            this.B_pageSettup.Location = new System.Drawing.Point(7, 69);
+            this.B_pageSettup.Name = "B_pageSettup";
+            this.B_pageSettup.Size = new System.Drawing.Size(112, 23);
+            this.B_pageSettup.TabIndex = 2;
+            this.B_pageSettup.Text = "Seite Einrichten";
+            this.B_pageSettup.UseVisualStyleBackColor = true;
+            this.B_pageSettup.Click += new System.EventHandler(this.B_pageSettup_Click);
+            // 
+            // B_Color
+            // 
+            this.B_Color.Location = new System.Drawing.Point(7, 44);
+            this.B_Color.Name = "B_Color";
+            this.B_Color.Size = new System.Drawing.Size(112, 23);
+            this.B_Color.TabIndex = 1;
+            this.B_Color.Text = "Farbe";
+            this.B_Color.UseVisualStyleBackColor = true;
+            this.B_Color.Click += new System.EventHandler(this.B_Color_Click);
+            // 
+            // B_Fonts
+            // 
+            this.B_Fonts.Location = new System.Drawing.Point(7, 19);
+            this.B_Fonts.Name = "B_Fonts";
+            this.B_Fonts.Size = new System.Drawing.Size(112, 23);
+            this.B_Fonts.TabIndex = 0;
+            this.B_Fonts.Text = "Schrift";
+            this.B_Fonts.UseVisualStyleBackColor = true;
+            this.B_Fonts.Click += new System.EventHandler(this.B_Fonts_Click);
             // 
             // settingsgroupbox
             // 
@@ -173,72 +237,20 @@ namespace Filobserverwindow
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(732, 294);
+            this.tabPage2.Size = new System.Drawing.Size(546, 294);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // groupFonts
+            // chosePrinter
             // 
-            this.groupFonts.Controls.Add(this.label2);
-            this.groupFonts.Controls.Add(this.TextPeview);
-            this.groupFonts.Controls.Add(this.B_pageSettup);
-            this.groupFonts.Controls.Add(this.B_Color);
-            this.groupFonts.Controls.Add(this.B_Fonts);
-            this.groupFonts.Location = new System.Drawing.Point(287, 7);
-            this.groupFonts.Name = "groupFonts";
-            this.groupFonts.Size = new System.Drawing.Size(239, 281);
-            this.groupFonts.TabIndex = 1;
-            this.groupFonts.TabStop = false;
-            this.groupFonts.Text = "Fonts";
-            // 
-            // B_Fonts
-            // 
-            this.B_Fonts.Location = new System.Drawing.Point(7, 19);
-            this.B_Fonts.Name = "B_Fonts";
-            this.B_Fonts.Size = new System.Drawing.Size(112, 23);
-            this.B_Fonts.TabIndex = 0;
-            this.B_Fonts.Text = "Schrift";
-            this.B_Fonts.UseVisualStyleBackColor = true;
-            this.B_Fonts.Click += new System.EventHandler(this.B_Fonts_Click);
-            // 
-            // B_Color
-            // 
-            this.B_Color.Location = new System.Drawing.Point(7, 44);
-            this.B_Color.Name = "B_Color";
-            this.B_Color.Size = new System.Drawing.Size(112, 23);
-            this.B_Color.TabIndex = 1;
-            this.B_Color.Text = "Farbe";
-            this.B_Color.UseVisualStyleBackColor = true;
-            this.B_Color.Click += new System.EventHandler(this.B_Color_Click);
-            // 
-            // B_pageSettup
-            // 
-            this.B_pageSettup.Location = new System.Drawing.Point(7, 69);
-            this.B_pageSettup.Name = "B_pageSettup";
-            this.B_pageSettup.Size = new System.Drawing.Size(112, 23);
-            this.B_pageSettup.TabIndex = 2;
-            this.B_pageSettup.Text = "Seite Einrichten";
-            this.B_pageSettup.UseVisualStyleBackColor = true;
-            this.B_pageSettup.Click += new System.EventHandler(this.B_pageSettup_Click);
-            // 
-            // TextPeview
-            // 
-            this.TextPeview.AutoSize = true;
-            this.TextPeview.Location = new System.Drawing.Point(68, 130);
-            this.TextPeview.Name = "TextPeview";
-            this.TextPeview.Size = new System.Drawing.Size(55, 13);
-            this.TextPeview.TabIndex = 3;
-            this.TextPeview.Text = "platzhalter";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 130);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Vorschau:";
+            this.chosePrinter.Location = new System.Drawing.Point(10, 99);
+            this.chosePrinter.Name = "chosePrinter";
+            this.chosePrinter.Size = new System.Drawing.Size(109, 23);
+            this.chosePrinter.TabIndex = 5;
+            this.chosePrinter.Text = "Drucker wählen";
+            this.chosePrinter.UseVisualStyleBackColor = true;
+            this.chosePrinter.Click += new System.EventHandler(this.chosePrinter_Click);
             // 
             // MainForm
             // 
@@ -251,11 +263,11 @@ namespace Filobserverwindow
             this.Text = "Adeprn";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.groupFonts.ResumeLayout(false);
+            this.groupFonts.PerformLayout();
             this.settingsgroupbox.ResumeLayout(false);
             this.settingsgroupbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaytime1)).EndInit();
-            this.groupFonts.ResumeLayout(false);
-            this.groupFonts.PerformLayout();
             this.ResumeLayout(false);
 
     }
@@ -280,5 +292,6 @@ namespace Filobserverwindow
         private System.Windows.Forms.Button B_pageSettup;
         private System.Windows.Forms.Button B_Color;
         private System.Windows.Forms.Button B_Fonts;
+        private System.Windows.Forms.Button chosePrinter;
     }
 }
