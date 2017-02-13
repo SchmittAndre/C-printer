@@ -12,69 +12,118 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Timers;
+using System.Configuration;
 
 namespace Filobserverwindow
 {
-  /// <summary>
-  /// Description of MainForm.
-  /// </summary>
-  public partial class MainForm : Form
-  {
-    string observerdirstr;
-    string movetodir;
-    FileSystemWatcher watcher1;
-    
-    public MainForm()
+    /// <summary>
+    /// Description of MainForm.
+    /// </summary>
+    public partial class MainForm : Form
     {
-      //
-      // The InitializeComponent() call is required for Windows Forms designer support.
-      //
-      InitializeComponent();
-      //
-      // TODO: Add constructor code after the InitializeComponent() call.
-      //
-    }
-    
-    
-    
-    
-   
-    
-    void ObserverdialogClick(object sender, EventArgs e)
-    {
-    	folderBrowserDialog1.ShowDialog();
-      observerdirstr = folderBrowserDialog1.SelectedPath;
-      t_observerdir.Text = observerdirstr;
-    }
-    
-    void StartobserverClick(object sender, EventArgs e)
-    {
-      if (Directory.Exists(observerdirstr))
-      {
-        watcher1 = new FileSystemWatcher(observerdirstr);
-        Debug.Print("Startetwatcher1");
-        watcher1.Changed += new FileSystemEventHandler(watcher1_Changed);
-        watcher1.Created += new FileSystemEventHandler(watcher1_Created);
-        watcher1.Deleted += new FileSystemEventHandler(watcher1_Changed);
-        watcher1.Renamed += new RenamedEventHandler(watcher1_Changed);
-        watcher1.EnableRaisingEvents = true;
-      }
+        string observerdirstr;
+        FileSystemWatcher watcher1;
+        Dictionary<string, FileandTimer> createdfiles;
+        private static System.Timers.Timer timer1;
+        private Font printFont;
+        private SolidBrush printColor;
+        printer Printer = new printer();
+        
+        public MainForm()
+        {
+            InitializeComponent();
+            createdfiles = new Dictionary<string, FileandTimer>();
+            observerdir.Text = observerdirstr;
+        }
+
+
+        void ObserverdialogClick(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.ShowDialog();
+            observerdirstr = folderBrowserDialog1.SelectedPath;
+            observerdir.Text = observerdirstr;
+        }
+
+        void StartobserverClick(object sender, EventArgs e)
+        {
+            if (Directory.Exists(observerdirstr))
+            {
+                watcher1 = new FileSystemWatcher(observerdirstr);
+                Debug.Print("Start twatcher1");
+                watcher1.Changed += new FileSystemEventHandler(watcher1_Changed);
+                watcher1.Created += new FileSystemEventHandler(watcher1_Created);
+                watcher1.Deleted += new FileSystemEventHandler(watcher1_Deleted);
+                watcher1.Renamed += new RenamedEventHandler(OnRenamed);
+                watcher1.EnableRaisingEvents = true;
+            }
+        }
+
+        static void watcher1_Changed(object source, FileSystemEventArgs e)
+        {
+            Debug.Print("File " + e.Name + " was " + e.ChangeType);
+        }
+
+        private void OnRenamed(object source, RenamedEventArgs e)
+        {
+            // Specify what is done when a file is renamed.
+            Debug.Print("File: {0} renamed to {1}", e.OldFullPath, e.FullPath);
+            FileandTimer temp = createdfiles[e.OldName];
+            createdfiles.Remove(e.OldName);
+            temp.Datei = e;
+            createdfiles.Add(e.Name, temp);
+
+        }
+
+        void watcher1_Deleted(object source, FileSystemEventArgs e)
+        {
+            Debug.Print("File " + e.Name + " was " + e.ChangeType);
+            try
+            {
+                FileandTimer temp = createdfiles[e.Name];
+                temp.TimerOfFile.Stop();
+                createdfiles.Remove(e.Name);
+            }
+            catch
+            {
+                Debug.Print("deleted file ignored");
+            }
+        }
+
+        void watcher1_Created(object sender, FileSystemEventArgs e)
+        {
+            Debug.Print("File " + e.Name + " was" + e.ChangeType + " Timer started");
+            timer1 = new System.Timers.Timer((int)(delaytime1.Value * 1000));
+            FileandTimer temp = new FileandTimer(timer1, e , Printer, printColor, printFont, printDocument1);
+            // Hook up the Elapsed event for the timer. 
+            temp.TimerOfFile.Elapsed += temp.Timer1Tick;
+            temp.TimerOfFile.AutoReset = false;
+            temp.TimerOfFile.Enabled = true;
+            createdfiles.Add(e.Name, temp);
+        }
+
+        private void B_Fonts_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            printFont = fontDialog1.Font;
+        }
+
+        private void B_Color_Click(object sender, EventArgs e)
+        {
+            colorDialog1.ShowDialog();
+            printColor = new SolidBrush(colorDialog1.Color);
+        }
+
+        private void B_pageSettup_Click(object sender, EventArgs e)
+        {
+            this.pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
+            this.pageSetupDialog1.PrinterSettings = this.printDocument1.PrinterSettings;
+            this.pageSetupDialog1.ShowDialog();
+            if (this.pageSetupDialog1.PageSettings != null)
+            {
+                this.printDocument1.DefaultPageSettings = this.pageSetupDialog1.PageSettings;
+            }
+        }
     }
 
-    static void watcher1_Changed(object source, FileSystemEventArgs e)
-    {
-      Debug.Print("Datei " + e.Name + " wurde " + e.ChangeType);
-    }
-    
-    
-    void watcher1_Created(object sender, FileSystemEventArgs e)
-    {
-      Debug.Print("Datei: " + e.Name + " wurde erzeugt und wird nun ausgedruckt");
-    }
-
-    private void b_print_Click(object sender, EventArgs e)
-    {
-
-    }
-  }
 }
