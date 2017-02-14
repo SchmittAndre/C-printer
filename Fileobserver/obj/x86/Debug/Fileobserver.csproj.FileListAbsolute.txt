@@ -1,0 +1,10 @@
+D:\DateiDrucker\Fileobserver\Fileobserver\bin\Debug\Fileobserver.exe
+D:\DateiDrucker\Fileobserver\Fileobserver\bin\Debug\Fileobserver.pdb
+D:\DateiDrucker\Fileobserver\Fileobserver\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\DateiDrucker\Fileobserver\Fileobserver\obj\x86\Debug\Fileobserver.exe
+D:\DateiDrucker\Fileobserver\Fileobserver\obj\x86\Debug\Fileobserver.pdb
+C:\Users\Andre\Documents\GitHub\C-printer\Fileobserver\bin\Debug\Fileobserver.exe
+C:\Users\Andre\Documents\GitHub\C-printer\Fileobserver\bin\Debug\Fileobserver.pdb
+C:\Users\Andre\Documents\GitHub\C-printer\Fileobserver\obj\x86\Debug\Fileobserver.csprojResolveAssemblyReference.cache
+C:\Users\Andre\Documents\GitHub\C-printer\Fileobserver\obj\x86\Debug\Fileobserver.exe
+C:\Users\Andre\Documents\GitHub\C-printer\Fileobserver\obj\x86\Debug\Fileobserver.pdb
