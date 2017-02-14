@@ -28,14 +28,20 @@ namespace Filobserverwindow
         private static System.Timers.Timer timer1;
         private Font printFont;
         private SolidBrush printColor;
-        printer Printer = new printer();
-        PrintDialog printDialog1 = new PrintDialog();
-
+        printer Printer;
+        
         public MainForm()
         {
             InitializeComponent();
+            printFont = new Font("Arial",12);
+            printColor = new SolidBrush(Color.Black);
+            Printer = new printer();
             createdfiles = new Dictionary<string, FileandTimer>();
             observerdir.Text = observerdirstr;
+            TextPeview.Text = "abcABC123";
+            TextPeview.Font = printFont;
+            TextPeview.ForeColor = printColor.Color;
+           
         }
 
 
@@ -57,6 +63,7 @@ namespace Filobserverwindow
                 watcher1.Deleted += new FileSystemEventHandler(watcher1_Deleted);
                 watcher1.Renamed += new RenamedEventHandler(OnRenamed);
                 watcher1.EnableRaisingEvents = true;
+                startobserver.Enabled=false;
             }
         }
 
@@ -105,30 +112,41 @@ namespace Filobserverwindow
 
         private void B_Fonts_Click(object sender, EventArgs e)
         {
-            fontDialog1.ShowDialog();
-            printFont = fontDialog1.Font;
+        	fontDialog1.Font = printFont;
+            if (fontDialog1.ShowDialog() != DialogResult.Cancel)
+            {
+	           	printFont = fontDialog1.Font;
+	            TextPeview.Font = printFont;
+            }
         }
-
+        
         private void B_Color_Click(object sender, EventArgs e)
         {
             colorDialog1.ShowDialog();
             printColor = new SolidBrush(colorDialog1.Color);
+            TextPeview.ForeColor = printColor.Color;
         }
 
         private void B_pageSettup_Click(object sender, EventArgs e)
         {
-            pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
-            pageSetupDialog1.Document = printDocument1;
+            this.pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
+            this.pageSetupDialog1.Document= this.printDocument1;
             this.pageSetupDialog1.ShowDialog();
+            	
         }
-
-        private void chosePrinter_Click(object sender, EventArgs e)
+        
+        private void ChosePrinterClick(object sender, EventArgs e)
         {
-            PrintDialog printDialog1 = new PrintDialog();
-            printDialog1.Document = printDocument1;
-            DialogResult result = printDialog1.ShowDialog();
-          
+        	PrintDialog printDialog2 = new PrintDialog();
+		   	printDialog2.Document = printDocument1;
+		   	DialogResult result = printDialog2.ShowDialog();
         }
+        
+		void MainFormFormClosed(object sender, FormClosedEventArgs e)
+		{
+			Printer.PrintThreadstop = true;
+			Printer.PrintThread.Join();
+		}
     }
 
 }
