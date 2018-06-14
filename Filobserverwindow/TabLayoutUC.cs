@@ -1,24 +1,13 @@
-﻿/*
- * Erstellt mit SharpDevelop.
- * Benutzer: schmitta
- * Datum: 19.01.2017
- * Zeit: 08:33
- * 
- * Sie können diese Vorlage unter Extras > Optionen > Codeerstellung > Standardheader ändern.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.IO;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace Filobserverwindow
 {
-    /// <summary>
-    /// Description of MainForm.
-    /// </summary>
-    public partial class MainForm : Form
+    public partial class TabLayoutUC : UserControl
     {
         string observerdirstr;
         FileSystemWatcher watcher1;
@@ -27,11 +16,11 @@ namespace Filobserverwindow
         private Font printFont;
         private SolidBrush printColor;
         printer Printer;
-        
-        public MainForm()
+
+        public TabLayoutUC()
         {
             InitializeComponent();
-            printFont = new Font("Arial",12);
+            printFont = new Font("Arial", 12);
             printColor = new SolidBrush(Color.Black);
             Printer = new printer();
             createdfiles = new Dictionary<string, FileandTimer>();
@@ -39,18 +28,21 @@ namespace Filobserverwindow
             TextPeview.Text = "abcABC123";
             TextPeview.Font = printFont;
             TextPeview.ForeColor = printColor.Color;
-           
         }
 
+        private void settingsgroupbox_Enter(object sender, EventArgs e)
+        {
 
-        void ObserverdialogClick(object sender, EventArgs e)
+        }
+
+        private void observerdialog_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1.ShowDialog();
             observerdirstr = folderBrowserDialog1.SelectedPath;
             observerdir.Text = observerdirstr;
         }
 
-        void StartobserverClick(object sender, EventArgs e)
+        private void startobserver_Click(object sender, EventArgs e)
         {
             if (Directory.Exists(observerdirstr))
             {
@@ -61,7 +53,7 @@ namespace Filobserverwindow
                 watcher1.Deleted += new FileSystemEventHandler(watcher1_Deleted);
                 watcher1.Renamed += new RenamedEventHandler(OnRenamed);
                 watcher1.EnableRaisingEvents = true;
-                startobserver.Enabled=false;
+                startobserver.Enabled = false;
             }
         }
 
@@ -105,6 +97,7 @@ namespace Filobserverwindow
             createdfiles.Remove(e.OldName);
             temp.Datei = e;
             createdfiles.Add(e.Name, temp);
+
         }
 
         private void B_Fonts_Click(object sender, EventArgs e)
@@ -116,7 +109,7 @@ namespace Filobserverwindow
                 TextPeview.Font = printFont;
             }
         }
-        
+
         private void B_Color_Click(object sender, EventArgs e)
         {
             colorDialog1.ShowDialog();
@@ -127,36 +120,15 @@ namespace Filobserverwindow
         private void B_pageSettup_Click(object sender, EventArgs e)
         {
             this.pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
-            this.pageSetupDialog1.Document= this.printDocument1;
+            this.pageSetupDialog1.Document = this.printDocument1;
             this.pageSetupDialog1.ShowDialog();
-                
         }
-        
-        private void ChosePrinterClick(object sender, EventArgs e)
+
+        private void chosePrinter_Click(object sender, EventArgs e)
         {
             PrintDialog printDialog2 = new PrintDialog();
             printDialog2.Document = printDocument1;
             DialogResult result = printDialog2.ShowDialog();
         }
-        
-        void MainFormFormClosed(object sender, FormClosedEventArgs e)
-        {
-            Printer.PrintThreadstop = true;
-            Printer.PrintThread.Join();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            TabPage test = new TabPage((tabControl1.Controls.Count + 1).ToString());
-            test.Controls.Add(new TabLayoutUC());
-            tabControl1.Controls.Add(test);
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
     }
-
 }

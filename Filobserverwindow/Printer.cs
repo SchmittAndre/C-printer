@@ -71,7 +71,7 @@ namespace Filobserverwindow
 		        	// Display the strings created before and after the conversion.
 		        	Console.WriteLine("Original string: {0}", printstring);
 		        	Console.WriteLine("Ascii converted string: {0}", strtoprint);
-		
+                    actualpritjob.dokument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(printDocument1_PrintPage);
 		        	actualpritjob.dokument.Print();
         		}
         		Thread.Sleep(100);

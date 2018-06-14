@@ -45,3 +45,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/Filobserverwindow/bin/Release/Filobserverwindow.exe
+/Filobserverwindow/obj
+/Filobserverwindow/.vs/Filobserverwindow
+/.vs/Fileobserver/DesignTimeBuild
+/.vs/Fileobserver/v15
