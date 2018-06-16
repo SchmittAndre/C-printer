@@ -182,7 +182,7 @@ namespace Filobserverwindow
             0,
             0});
             this.delaytime1.Minimum = new decimal(new int[] {
-            3,
+            1,
             0,
             0,
             0});
@@ -190,7 +190,7 @@ namespace Filobserverwindow
             this.delaytime1.Size = new System.Drawing.Size(100, 20);
             this.delaytime1.TabIndex = 11;
             this.delaytime1.Value = new decimal(new int[] {
-            30,
+            2,
             0,
             0,
             0});

@@ -50,3 +50,7 @@ Temporary Items
 /Filobserverwindow/.vs/Filobserverwindow
 /.vs/Fileobserver/DesignTimeBuild
 /.vs/Fileobserver/v15
+/.vs/ProjectSettings.json
+/.vs/slnx.sqlite
+/Fileobserver/obj/x86/Debug
+/Fileobserver/obj/x86/Release/Fileobserver.csproj.CoreCompileInputs.cache

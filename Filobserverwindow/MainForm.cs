@@ -31,7 +31,7 @@ namespace Filobserverwindow
         public MainForm()
         {
             InitializeComponent();
-            printFont = new Font("Arial",12);
+            printFont = new Font("courier new", 11);
             printColor = new SolidBrush(Color.Black);
             Printer = new printer();
             createdfiles = new Dictionary<string, FileandTimer>();
@@ -150,11 +150,6 @@ namespace Filobserverwindow
             TabPage test = new TabPage((tabControl1.Controls.Count + 1).ToString());
             test.Controls.Add(new TabLayoutUC());
             tabControl1.Controls.Add(test);
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
 
         }
     }

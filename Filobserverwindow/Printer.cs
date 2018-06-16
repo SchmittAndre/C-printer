@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -44,29 +45,34 @@ namespace Filobserverwindow
         		
         		if(actualpritjob != null)
         		{
-        			string printstring;
-		        	using (System.IO.StreamReader fileToPrint = new System.IO.StreamReader(actualpritjob.PathToPrint))
+        			
+                    string[] printstring = File.ReadAllLines(actualpritjob.PathToPrint, Encoding.GetEncoding(437));
+                    strtoprint = string.Join("\r\n", printstring);
+                    strtoprint = strtoprint.Remove(strtoprint.Count() - 1, 1);
+
+                    /*string printstring;
+                    using (System.IO.StreamReader fileToPrint = new System.IO.StreamReader(actualpritjob.PathToPrint))
 		        	{
-		        		printstring = fileToPrint.ReadToEnd();
+		        		fileToPrint.ReadToEnd();
 		        		fileToPrint.Close();
-		        	}
-		
-		        	ColorToPrint = actualpritjob.Color;
+		        	}*/
+
+                    ColorToPrint = actualpritjob.Color;
 		        	FontToPrint = actualpritjob.Font;
 		
-		        	Encoding unicode = Encoding.GetEncoding(852);
-		        	Encoding ascii = Encoding.Unicode;
+                    /*Encoding ascii = Encoding.GetEncoding(437);
+		        	Encoding unicode = Encoding.Default;
 		
 		        	// Convert the string into a byte array.
-		        	byte[] unicodeBytes = unicode.GetBytes(printstring);
+		        	byte[] asciiBytes = ascii.GetBytes(printstring);
 		
 		        	// Perform the conversion from one encoding to the other.
-		        	byte[] asciiBytes = Encoding.Convert(unicode, ascii, unicodeBytes);
+		        	byte[] unicodeBytes = Encoding.Convert(ascii, unicode, asciiBytes);
 		
 		        	// Convert the new byte[] into a char[] and then into a string.
-		        	char[] asciiChars = new char[ascii.GetCharCount(asciiBytes, 0, asciiBytes.Length)];
-		        	ascii.GetChars(asciiBytes, 0, asciiBytes.Length, asciiChars, 0);
-		        	strtoprint = new string(asciiChars);
+		        	char[] unicodeChars = new char[unicode.GetCharCount(unicodeBytes, 0, unicodeBytes.Length)];
+                    unicode.GetChars(unicodeBytes, 0, unicodeBytes.Length, unicodeChars, 0);
+                    strtoprint = new string(unicodeChars);*/
 		
 		        	// Display the strings created before and after the conversion.
 		        	Console.WriteLine("Original string: {0}", printstring);
