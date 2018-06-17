@@ -36,8 +36,6 @@
             this.B_Color = new System.Windows.Forms.Button();
             this.B_Fonts = new System.Windows.Forms.Button();
             this.settingsgroupbox = new System.Windows.Forms.GroupBox();
-            this.delaytime1 = new System.Windows.Forms.NumericUpDown();
-            this.startobserver = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.observerdialog = new System.Windows.Forms.Button();
             this.observerdir = new System.Windows.Forms.TextBox();
@@ -47,6 +45,11 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.ShallDelete = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BtStop = new System.Windows.Forms.Button();
+            this.delaytime1 = new System.Windows.Forms.NumericUpDown();
+            this.startobserver = new System.Windows.Forms.Button();
             this.groupFonts.SuspendLayout();
             this.settingsgroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaytime1)).BeginInit();
@@ -127,6 +130,9 @@
             // 
             // settingsgroupbox
             // 
+            this.settingsgroupbox.Controls.Add(this.ShallDelete);
+            this.settingsgroupbox.Controls.Add(this.label1);
+            this.settingsgroupbox.Controls.Add(this.BtStop);
             this.settingsgroupbox.Controls.Add(this.delaytime1);
             this.settingsgroupbox.Controls.Add(this.startobserver);
             this.settingsgroupbox.Controls.Add(this.label3);
@@ -139,39 +145,6 @@
             this.settingsgroupbox.TabIndex = 2;
             this.settingsgroupbox.TabStop = false;
             this.settingsgroupbox.Text = "Settings";
-            this.settingsgroupbox.Enter += new System.EventHandler(this.settingsgroupbox_Enter);
-            // 
-            // delaytime1
-            // 
-            this.delaytime1.Location = new System.Drawing.Point(90, 72);
-            this.delaytime1.Maximum = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            this.delaytime1.Minimum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.delaytime1.Name = "delaytime1";
-            this.delaytime1.Size = new System.Drawing.Size(100, 20);
-            this.delaytime1.TabIndex = 11;
-            this.delaytime1.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            // 
-            // startobserver
-            // 
-            this.startobserver.Location = new System.Drawing.Point(90, 99);
-            this.startobserver.Name = "startobserver";
-            this.startobserver.Size = new System.Drawing.Size(100, 31);
-            this.startobserver.TabIndex = 10;
-            this.startobserver.Text = "Start";
-            this.startobserver.UseVisualStyleBackColor = true;
-            this.startobserver.Click += new System.EventHandler(this.startobserver_Click);
             // 
             // label3
             // 
@@ -208,6 +181,67 @@
             this.observerpath.TabIndex = 6;
             this.observerpath.Text = "Pfad: ";
             // 
+            // ShallDelete
+            // 
+            this.ShallDelete.AutoSize = true;
+            this.ShallDelete.Checked = true;
+            this.ShallDelete.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ShallDelete.Location = new System.Drawing.Point(87, 107);
+            this.ShallDelete.Name = "ShallDelete";
+            this.ShallDelete.Size = new System.Drawing.Size(150, 17);
+            this.ShallDelete.TabIndex = 21;
+            this.ShallDelete.Text = "Datei nach Druck löschen";
+            this.ShallDelete.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(6, 78);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 32);
+            this.label1.TabIndex = 20;
+            this.label1.Text = "Zeit vom erstellen bis zum Druck:";
+            // 
+            // BtStop
+            // 
+            this.BtStop.Location = new System.Drawing.Point(87, 180);
+            this.BtStop.Name = "BtStop";
+            this.BtStop.Size = new System.Drawing.Size(100, 31);
+            this.BtStop.TabIndex = 19;
+            this.BtStop.Text = "Stop";
+            this.BtStop.UseVisualStyleBackColor = true;
+            // 
+            // delaytime1
+            // 
+            this.delaytime1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.delaytime1.Location = new System.Drawing.Point(142, 78);
+            this.delaytime1.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.delaytime1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.delaytime1.Name = "delaytime1";
+            this.delaytime1.Size = new System.Drawing.Size(100, 16);
+            this.delaytime1.TabIndex = 18;
+            this.delaytime1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // startobserver
+            // 
+            this.startobserver.Location = new System.Drawing.Point(87, 143);
+            this.startobserver.Name = "startobserver";
+            this.startobserver.Size = new System.Drawing.Size(100, 31);
+            this.startobserver.TabIndex = 17;
+            this.startobserver.Text = "Start";
+            this.startobserver.UseVisualStyleBackColor = true;
+            // 
             // TabLayoutUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,8 +269,6 @@
         private System.Windows.Forms.Button B_Color;
         private System.Windows.Forms.Button B_Fonts;
         private System.Windows.Forms.GroupBox settingsgroupbox;
-        private System.Windows.Forms.NumericUpDown delaytime1;
-        private System.Windows.Forms.Button startobserver;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button observerdialog;
         private System.Windows.Forms.TextBox observerdir;
@@ -246,5 +278,10 @@
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.FontDialog fontDialog1;
+        private System.Windows.Forms.CheckBox ShallDelete;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button BtStop;
+        private System.Windows.Forms.NumericUpDown delaytime1;
+        private System.Windows.Forms.Button startobserver;
     }
 }

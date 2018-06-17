@@ -13,12 +13,15 @@ namespace Filobserverwindow
         string Name;
         public FileSystemEventArgs Datei;
         public System.Timers.Timer TimerOfFile { get; private set; }
-        public printer Printer;
+        public Printer Printer;
         private Font jobsFont;
         private SolidBrush jobsColor;
+        private bool shallDelete;
         System.Drawing.Printing.PrintDocument jobsdokument;
 
-        public FileandTimer(System.Timers.Timer timer, FileSystemEventArgs Dateiinfos , printer Printer,SolidBrush Color, Font Font, System.Drawing.Printing.PrintDocument dokument)
+
+        public FileandTimer(System.Timers.Timer timer, FileSystemEventArgs Dateiinfos , Printer Printer, 
+            SolidBrush Color, Font Font, System.Drawing.Printing.PrintDocument dokument, bool shalldelete)
         {
             Datei = Dateiinfos;
             TimerOfFile = timer;
@@ -26,13 +29,14 @@ namespace Filobserverwindow
             this.jobsColor = Color;
             this.jobsFont = Font;
             this.jobsdokument = dokument;
+            this.shallDelete = shalldelete;
         }
 
         public void Timer1Tick(object sender, System.EventArgs e)
         {
             Debug.Print("Datei: " + Datei.Name + " wurde erzeugt und wird nun ausgedruckt");
             TimerOfFile.Stop();
-            Printer.addTooQueue(Datei.FullPath, jobsColor, jobsFont, jobsdokument);
+            Printer.AddTooQueue(Datei.FullPath, jobsColor, jobsFont, jobsdokument, shallDelete);
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace Filobserverwindow
 {
-    public class printer
+    public class Printer
     {
         string strtoprint;
         SolidBrush ColorToPrint;
@@ -21,14 +21,14 @@ namespace Filobserverwindow
         public Thread PrintThread;
         public bool PrintThreadstop = false;
         
-        public printer()
+        public Printer()
         {
-        	PrintThread = new Thread(new ThreadStart(printFile));
+        	PrintThread = new Thread(new ThreadStart(PrintFile));
         	PrintThread.Priority = ThreadPriority.AboveNormal;
         	PrintThread.Start();
         }
 
-        private void printFile()
+        private void PrintFile()
         {
         	Printjop actualpritjob;
         	Thread.Sleep(400);
@@ -47,57 +47,36 @@ namespace Filobserverwindow
         		{
         			
                     string[] printstring = File.ReadAllLines(actualpritjob.PathToPrint, Encoding.GetEncoding(437));
+                    if (actualpritjob.shallDelete)
+                    {
+                        File.Delete(actualpritjob.PathToPrint);
+                    }
+
                     strtoprint = string.Join("\r\n", printstring);
                     strtoprint = strtoprint.Remove(strtoprint.Count() - 1, 1);
 
-                    /*string printstring;
-                    using (System.IO.StreamReader fileToPrint = new System.IO.StreamReader(actualpritjob.PathToPrint))
-		        	{
-		        		fileToPrint.ReadToEnd();
-		        		fileToPrint.Close();
-		        	}*/
-
                     ColorToPrint = actualpritjob.Color;
 		        	FontToPrint = actualpritjob.Font;
-		
-                    /*Encoding ascii = Encoding.GetEncoding(437);
-		        	Encoding unicode = Encoding.Default;
-		
-		        	// Convert the string into a byte array.
-		        	byte[] asciiBytes = ascii.GetBytes(printstring);
-		
-		        	// Perform the conversion from one encoding to the other.
-		        	byte[] unicodeBytes = Encoding.Convert(ascii, unicode, asciiBytes);
-		
-		        	// Convert the new byte[] into a char[] and then into a string.
-		        	char[] unicodeChars = new char[unicode.GetCharCount(unicodeBytes, 0, unicodeBytes.Length)];
-                    unicode.GetChars(unicodeBytes, 0, unicodeBytes.Length, unicodeChars, 0);
-                    strtoprint = new string(unicodeChars);*/
-		
-		        	// Display the strings created before and after the conversion.
-		        	Console.WriteLine("Original string: {0}", printstring);
-		        	Console.WriteLine("Ascii converted string: {0}", strtoprint);
-                    actualpritjob.dokument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(printDocument1_PrintPage);
+
+                    actualpritjob.dokument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(PrintDocument1_PrintPage);
 		        	actualpritjob.dokument.Print();
         		}
         		Thread.Sleep(100);
         	}
         }
 
-        public void addTooQueue(string PathToPrint, SolidBrush Color, Font Font, System.Drawing.Printing.PrintDocument dokument)
+        public void AddTooQueue(string PathToPrint, SolidBrush Color, Font Font, System.Drawing.Printing.PrintDocument dokument, bool shallDelete)
         {
             lock("Quelock")
             {
-                jobs.Enqueue(new Printjop(PathToPrint, Color, Font, dokument));
+                jobs.Enqueue(new Printjop(PathToPrint, Color, Font, dokument, shallDelete));
             }
             
         }
 
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        private void PrintDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            int charactersOnPage = 0;
-            int linesPerPage = 0;
-            e.Graphics.MeasureString(strtoprint, FontToPrint, e.MarginBounds.Size, StringFormat.GenericTypographic, out charactersOnPage, out linesPerPage);
+            e.Graphics.MeasureString(strtoprint, FontToPrint, e.MarginBounds.Size, StringFormat.GenericTypographic, out int charactersOnPage, out int linesPerPage);
 
             e.Graphics.DrawString(strtoprint, FontToPrint, ColorToPrint, e.MarginBounds, StringFormat.GenericTypographic);
             strtoprint = strtoprint.Substring(charactersOnPage);

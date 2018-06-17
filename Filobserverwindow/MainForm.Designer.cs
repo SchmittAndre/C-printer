@@ -46,6 +46,8 @@ namespace Filobserverwindow
             this.B_Color = new System.Windows.Forms.Button();
             this.B_Fonts = new System.Windows.Forms.Button();
             this.settingsgroupbox = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BtStop = new System.Windows.Forms.Button();
             this.delaytime1 = new System.Windows.Forms.NumericUpDown();
             this.startobserver = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -57,6 +59,7 @@ namespace Filobserverwindow
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.ShallDelete = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupFonts.SuspendLayout();
@@ -82,7 +85,7 @@ namespace Filobserverwindow
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(588, 256);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "0";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupFonts
@@ -160,6 +163,9 @@ namespace Filobserverwindow
             // 
             // settingsgroupbox
             // 
+            this.settingsgroupbox.Controls.Add(this.ShallDelete);
+            this.settingsgroupbox.Controls.Add(this.label1);
+            this.settingsgroupbox.Controls.Add(this.BtStop);
             this.settingsgroupbox.Controls.Add(this.delaytime1);
             this.settingsgroupbox.Controls.Add(this.startobserver);
             this.settingsgroupbox.Controls.Add(this.label3);
@@ -173,11 +179,29 @@ namespace Filobserverwindow
             this.settingsgroupbox.TabStop = false;
             this.settingsgroupbox.Text = "Settings";
             // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(8, 68);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 32);
+            this.label1.TabIndex = 13;
+            this.label1.Text = "Zeit vom erstellen bis zum Druck:";
+            // 
+            // BtStop
+            // 
+            this.BtStop.Location = new System.Drawing.Point(90, 175);
+            this.BtStop.Name = "BtStop";
+            this.BtStop.Size = new System.Drawing.Size(100, 31);
+            this.BtStop.TabIndex = 12;
+            this.BtStop.Text = "Stop";
+            this.BtStop.UseVisualStyleBackColor = true;
+            this.BtStop.Click += new System.EventHandler(this.BtStop_Click);
+            // 
             // delaytime1
             // 
-            this.delaytime1.Location = new System.Drawing.Point(90, 72);
+            this.delaytime1.Location = new System.Drawing.Point(145, 72);
             this.delaytime1.Maximum = new decimal(new int[] {
-            60,
+            30,
             0,
             0,
             0});
@@ -190,14 +214,14 @@ namespace Filobserverwindow
             this.delaytime1.Size = new System.Drawing.Size(100, 20);
             this.delaytime1.TabIndex = 11;
             this.delaytime1.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
             // 
             // startobserver
             // 
-            this.startobserver.Location = new System.Drawing.Point(90, 99);
+            this.startobserver.Location = new System.Drawing.Point(90, 137);
             this.startobserver.Name = "startobserver";
             this.startobserver.Size = new System.Drawing.Size(100, 31);
             this.startobserver.TabIndex = 10;
@@ -240,6 +264,18 @@ namespace Filobserverwindow
             this.observerpath.TabIndex = 6;
             this.observerpath.Text = "Pfad: ";
             // 
+            // ShallDelete
+            // 
+            this.ShallDelete.AutoSize = true;
+            this.ShallDelete.Checked = true;
+            this.ShallDelete.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ShallDelete.Location = new System.Drawing.Point(47, 103);
+            this.ShallDelete.Name = "ShallDelete";
+            this.ShallDelete.Size = new System.Drawing.Size(150, 17);
+            this.ShallDelete.TabIndex = 15;
+            this.ShallDelete.Text = "Datei nach Druck löschen";
+            this.ShallDelete.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -248,7 +284,7 @@ namespace Filobserverwindow
             this.Controls.Add(this.tabControl1);
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "Adeprn";
+            this.Text = "Dirprinter";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFormFormClosed);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -281,5 +317,8 @@ namespace Filobserverwindow
         private System.Windows.Forms.Button B_Color;
         private System.Windows.Forms.Button B_Fonts;
         private System.Windows.Forms.Button chosePrinter;
+        private System.Windows.Forms.Button BtStop;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox ShallDelete;
     }
 }

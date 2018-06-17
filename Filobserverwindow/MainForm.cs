@@ -21,25 +21,25 @@ namespace Filobserverwindow
     public partial class MainForm : Form
     {
         string observerdirstr;
-        FileSystemWatcher watcher1;
+        FileSystemWatcher watcher;
         Dictionary<string, FileandTimer> createdfiles;
         private static System.Timers.Timer timer1;
         private Font printFont;
         private SolidBrush printColor;
-        printer Printer;
-        
+        Printer Printer;
+
         public MainForm()
         {
             InitializeComponent();
             printFont = new Font("courier new", 11);
             printColor = new SolidBrush(Color.Black);
-            Printer = new printer();
+            Printer = new Printer();
             createdfiles = new Dictionary<string, FileandTimer>();
             observerdir.Text = observerdirstr;
             TextPeview.Text = "abcABC123";
             TextPeview.Font = printFont;
             TextPeview.ForeColor = printColor.Color;
-           
+            BtStop.Enabled = false;
         }
 
 
@@ -54,27 +54,37 @@ namespace Filobserverwindow
         {
             if (Directory.Exists(observerdirstr))
             {
-                watcher1 = new FileSystemWatcher(observerdirstr);
+                watcher = new FileSystemWatcher(observerdirstr);
                 Debug.Print("Start twatcher1");
-                watcher1.Changed += new FileSystemEventHandler(watcher1_Changed);
-                watcher1.Created += new FileSystemEventHandler(watcher1_Created);
-                watcher1.Deleted += new FileSystemEventHandler(watcher1_Deleted);
-                watcher1.Renamed += new RenamedEventHandler(OnRenamed);
-                watcher1.EnableRaisingEvents = true;
+                watcher.Changed += new FileSystemEventHandler(Watcher1_Changed);
+                watcher.Created += new FileSystemEventHandler(Watcher1_Created);
+                watcher.Deleted += new FileSystemEventHandler(Watcher1_Deleted);
+                watcher.Renamed += new RenamedEventHandler(OnRenamed);
+                watcher.EnableRaisingEvents = true;
                 startobserver.Enabled=false;
+                BtStop.Enabled = true;
             }
         }
 
-        static void watcher1_Changed(object source, FileSystemEventArgs e)
+        private void BtStop_Click(object sender, EventArgs e)
+        {
+            watcher.EnableRaisingEvents = false;
+            watcher.Dispose();
+            Debug.Print("stop watcher");
+            startobserver.Enabled = true;
+            BtStop.Enabled = false;
+        }
+
+        static void Watcher1_Changed(object source, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was " + e.ChangeType);
         }
 
-        void watcher1_Created(object sender, FileSystemEventArgs e)
+        void Watcher1_Created(object sender, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was" + e.ChangeType + " Timer started");
             timer1 = new System.Timers.Timer((int)(delaytime1.Value * 1000));
-            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1);
+            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1, ShallDelete.Checked);
             // Hook up the Elapsed event for the timer. 
             temp.TimerOfFile.Elapsed += temp.Timer1Tick;
             temp.TimerOfFile.AutoReset = false;
@@ -82,7 +92,7 @@ namespace Filobserverwindow
             createdfiles.Add(e.Name, temp);
         }
 
-        void watcher1_Deleted(object source, FileSystemEventArgs e)
+        void Watcher1_Deleted(object source, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was " + e.ChangeType);
             try
@@ -145,7 +155,7 @@ namespace Filobserverwindow
             Printer.PrintThread.Join();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             TabPage test = new TabPage((tabControl1.Controls.Count + 1).ToString());
             test.Controls.Add(new TabLayoutUC());

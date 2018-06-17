@@ -15,24 +15,19 @@ namespace Filobserverwindow
         private static System.Timers.Timer timer1;
         private Font printFont;
         private SolidBrush printColor;
-        printer Printer;
+        Printer Printer;
 
         public TabLayoutUC()
         {
             InitializeComponent();
             printFont = new Font("Arial", 12);
             printColor = new SolidBrush(Color.Black);
-            Printer = new printer();
+            Printer = new Printer();
             createdfiles = new Dictionary<string, FileandTimer>();
             observerdir.Text = observerdirstr;
             TextPeview.Text = "abcABC123";
             TextPeview.Font = printFont;
             TextPeview.ForeColor = printColor.Color;
-        }
-
-        private void settingsgroupbox_Enter(object sender, EventArgs e)
-        {
-
         }
 
         private void observerdialog_Click(object sender, EventArgs e)
@@ -66,7 +61,7 @@ namespace Filobserverwindow
         {
             Debug.Print("File " + e.Name + " was" + e.ChangeType + " Timer started");
             timer1 = new System.Timers.Timer((int)(delaytime1.Value * 1000));
-            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1);
+            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1, ShallDelete.Checked);
             // Hook up the Elapsed event for the timer. 
             temp.TimerOfFile.Elapsed += temp.Timer1Tick;
             temp.TimerOfFile.AutoReset = false;

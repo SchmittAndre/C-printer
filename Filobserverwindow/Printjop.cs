@@ -13,13 +13,15 @@ namespace Filobserverwindow
         public SolidBrush Color;
         public Font Font;
         public PrintDocument dokument;
+        public bool shallDelete;
 
-        public Printjop(string pathToPrint, SolidBrush color, Font font, PrintDocument dokument)
+        public Printjop(string pathToPrint, SolidBrush color, Font font, PrintDocument dokument, bool shallDelete)
         {
             PathToPrint = pathToPrint;
             Color = color;
             Font = font;
             this.dokument = dokument;
+            this.shallDelete = shallDelete;
         }
     }
 }
