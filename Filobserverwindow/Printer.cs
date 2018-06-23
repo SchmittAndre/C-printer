@@ -32,7 +32,7 @@ namespace Filobserverwindow
         {
         	Printjop actualpritjob;
         	Thread.Sleep(400);
-        	while (!PrintThreadstop || jobs.Count > 0)
+        	while (!PrintThreadstop && jobs.Count > 0)
         	{
         		if (jobs.Count !=0)
         		{

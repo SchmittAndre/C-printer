@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupFonts = new System.Windows.Forms.GroupBox();
             this.chosePrinter = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -36,6 +37,11 @@
             this.B_Color = new System.Windows.Forms.Button();
             this.B_Fonts = new System.Windows.Forms.Button();
             this.settingsgroupbox = new System.Windows.Forms.GroupBox();
+            this.ShallDelete = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BtStop = new System.Windows.Forms.Button();
+            this.delaytime1 = new System.Windows.Forms.NumericUpDown();
+            this.startobserver = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.observerdialog = new System.Windows.Forms.Button();
             this.observerdir = new System.Windows.Forms.TextBox();
@@ -45,14 +51,13 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.ShallDelete = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.BtStop = new System.Windows.Forms.Button();
-            this.delaytime1 = new System.Windows.Forms.NumericUpDown();
-            this.startobserver = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.delTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupFonts.SuspendLayout();
             this.settingsgroupbox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaytime1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupFonts
@@ -146,6 +151,68 @@
             this.settingsgroupbox.TabStop = false;
             this.settingsgroupbox.Text = "Settings";
             // 
+            // ShallDelete
+            // 
+            this.ShallDelete.AutoSize = true;
+            this.ShallDelete.Checked = true;
+            this.ShallDelete.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ShallDelete.Location = new System.Drawing.Point(87, 107);
+            this.ShallDelete.Name = "ShallDelete";
+            this.ShallDelete.Size = new System.Drawing.Size(150, 17);
+            this.ShallDelete.TabIndex = 21;
+            this.ShallDelete.Text = "Datei nach Druck löschen";
+            this.ShallDelete.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(6, 78);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(110, 32);
+            this.label1.TabIndex = 20;
+            this.label1.Text = "Zeit vom erstellen bis zum Druck:";
+            // 
+            // BtStop
+            // 
+            this.BtStop.Location = new System.Drawing.Point(87, 180);
+            this.BtStop.Name = "BtStop";
+            this.BtStop.Size = new System.Drawing.Size(100, 31);
+            this.BtStop.TabIndex = 19;
+            this.BtStop.Text = "Stop";
+            this.BtStop.UseVisualStyleBackColor = true;
+            this.BtStop.Click += new System.EventHandler(this.BtStop_Click);
+            // 
+            // delaytime1
+            // 
+            this.delaytime1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.delaytime1.Location = new System.Drawing.Point(142, 78);
+            this.delaytime1.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.delaytime1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.delaytime1.Name = "delaytime1";
+            this.delaytime1.Size = new System.Drawing.Size(100, 16);
+            this.delaytime1.TabIndex = 18;
+            this.delaytime1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // startobserver
+            // 
+            this.startobserver.Location = new System.Drawing.Point(87, 143);
+            this.startobserver.Name = "startobserver";
+            this.startobserver.Size = new System.Drawing.Size(100, 31);
+            this.startobserver.TabIndex = 17;
+            this.startobserver.Text = "Start";
+            this.startobserver.UseVisualStyleBackColor = true;
+            // 
             // label3
             // 
             this.label3.Location = new System.Drawing.Point(6, 20);
@@ -181,71 +248,33 @@
             this.observerpath.TabIndex = 6;
             this.observerpath.Text = "Pfad: ";
             // 
-            // ShallDelete
+            // contextMenuStrip1
             // 
-            this.ShallDelete.AutoSize = true;
-            this.ShallDelete.Checked = true;
-            this.ShallDelete.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ShallDelete.Location = new System.Drawing.Point(87, 107);
-            this.ShallDelete.Name = "ShallDelete";
-            this.ShallDelete.Size = new System.Drawing.Size(150, 17);
-            this.ShallDelete.TabIndex = 21;
-            this.ShallDelete.Text = "Datei nach Druck löschen";
-            this.ShallDelete.UseVisualStyleBackColor = true;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newTabToolStripMenuItem,
+            this.delTabToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
             // 
-            // label1
+            // newTabToolStripMenuItem
             // 
-            this.label1.Location = new System.Drawing.Point(6, 78);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(110, 32);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "Zeit vom erstellen bis zum Druck:";
+            this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
+            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newTabToolStripMenuItem.Text = "new Tab";
+            this.newTabToolStripMenuItem.Click += new System.EventHandler(this.newTabToolStripMenuItem_Click);
             // 
-            // BtStop
+            // delTabToolStripMenuItem
             // 
-            this.BtStop.Location = new System.Drawing.Point(87, 180);
-            this.BtStop.Name = "BtStop";
-            this.BtStop.Size = new System.Drawing.Size(100, 31);
-            this.BtStop.TabIndex = 19;
-            this.BtStop.Text = "Stop";
-            this.BtStop.UseVisualStyleBackColor = true;
-            // 
-            // delaytime1
-            // 
-            this.delaytime1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.delaytime1.Location = new System.Drawing.Point(142, 78);
-            this.delaytime1.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.delaytime1.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.delaytime1.Name = "delaytime1";
-            this.delaytime1.Size = new System.Drawing.Size(100, 16);
-            this.delaytime1.TabIndex = 18;
-            this.delaytime1.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // startobserver
-            // 
-            this.startobserver.Location = new System.Drawing.Point(87, 143);
-            this.startobserver.Name = "startobserver";
-            this.startobserver.Size = new System.Drawing.Size(100, 31);
-            this.startobserver.TabIndex = 17;
-            this.startobserver.Text = "Start";
-            this.startobserver.UseVisualStyleBackColor = true;
+            this.delTabToolStripMenuItem.Name = "delTabToolStripMenuItem";
+            this.delTabToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.delTabToolStripMenuItem.Text = "Tab löschen";
+            this.delTabToolStripMenuItem.Click += new System.EventHandler(this.delTabToolStripMenuItem_Click);
             // 
             // TabLayoutUC
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.groupFonts);
             this.Controls.Add(this.settingsgroupbox);
             this.Name = "TabLayoutUC";
@@ -255,6 +284,7 @@
             this.settingsgroupbox.ResumeLayout(false);
             this.settingsgroupbox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.delaytime1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -283,5 +313,8 @@
         private System.Windows.Forms.Button BtStop;
         private System.Windows.Forms.NumericUpDown delaytime1;
         private System.Windows.Forms.Button startobserver;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem delTabToolStripMenuItem;
     }
 }

@@ -42,7 +42,7 @@ namespace Filobserverwindow
             if (Directory.Exists(observerdirstr))
             {
                 watcher1 = new FileSystemWatcher(observerdirstr);
-                Debug.Print("Start twatcher1");
+                Debug.Print("Start twatcher: " + Parent.Name);
                 watcher1.Changed += new FileSystemEventHandler(watcher1_Changed);
                 watcher1.Created += new FileSystemEventHandler(watcher1_Created);
                 watcher1.Deleted += new FileSystemEventHandler(watcher1_Deleted);
@@ -50,6 +50,15 @@ namespace Filobserverwindow
                 watcher1.EnableRaisingEvents = true;
                 startobserver.Enabled = false;
             }
+        }
+
+        private void BtStop_Click(object sender, EventArgs e)
+        {
+            watcher1.EnableRaisingEvents = false;
+            watcher1.Dispose();
+            Debug.Print("stop watcher");
+            startobserver.Enabled = true;
+            BtStop.Enabled = false;
         }
 
         static void watcher1_Changed(object source, FileSystemEventArgs e)
@@ -125,5 +134,40 @@ namespace Filobserverwindow
             printDialog2.Document = printDocument1;
             DialogResult result = printDialog2.ShowDialog();
         }
+
+        private void newTabToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addTab();
+        }
+
+        private void delTabToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            delTab();
+        }
+
+        private void delTab()
+        {
+            TabControl tabcontrol = (TabControl)Parent.Parent;
+            if(tabcontrol.TabPages.Count > 1)
+            {
+                if (watcher1 != null)
+                    {
+                        watcher1.EnableRaisingEvents = false;
+                        watcher1 = null;
+                    }
+                tabcontrol.TabPages.Remove((TabPage)this.Parent);
+            }
+            
+        }
+
+        private void addTab()
+        {
+            TabControl tabcontrol = (TabControl) this.Parent.Parent;
+            TabPage newPage = new TabPage((tabcontrol.TabPages.Count).ToString());
+            newPage.Controls.Add(new TabLayoutUC());
+            tabcontrol.TabPages.Add(newPage);
+
+        }
+
     }
 }
