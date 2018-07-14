@@ -37,18 +37,29 @@ namespace Filobserverwindow
             observerdir.Text = observerdirstr;
         }
 
+        private void observerdir_TextChanged(object sender, EventArgs e)
+        {
+            observerdirstr = observerdir.Text;
+        }
+
         private void startobserver_Click(object sender, EventArgs e)
         {
             if (Directory.Exists(observerdirstr))
             {
+                foreach (string file in Directory.EnumerateFiles(observerdirstr))
+                {
+                    Debug.Print("File " + Path.GetFileName(file) + " Timer started");
+                    Printer.AddTooQueue(file, printColor, printFont, printDocument1, ShallDelete.Checked);
+                }
                 watcher1 = new FileSystemWatcher(observerdirstr);
-                Debug.Print("Start twatcher: " + Parent.Name);
+                Debug.Print("Start twatcher at: " + observerdirstr);
                 watcher1.Changed += new FileSystemEventHandler(watcher1_Changed);
                 watcher1.Created += new FileSystemEventHandler(watcher1_Created);
                 watcher1.Deleted += new FileSystemEventHandler(watcher1_Deleted);
                 watcher1.Renamed += new RenamedEventHandler(OnRenamed);
                 watcher1.EnableRaisingEvents = true;
                 startobserver.Enabled = false;
+                BtStop.Enabled = true;
             }
         }
 
@@ -168,6 +179,5 @@ namespace Filobserverwindow
             tabcontrol.TabPages.Add(newPage);
 
         }
-
     }
 }

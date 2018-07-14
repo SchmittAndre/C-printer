@@ -9,15 +9,17 @@ namespace Filobserverwindow
 {
     class Printjop
     {
-        public string PathToPrint;
+        public string str;
         public SolidBrush Color;
         public Font Font;
         public PrintDocument dokument;
         public bool shallDelete;
+        public bool ispath;
 
-        public Printjop(string pathToPrint, SolidBrush color, Font font, PrintDocument dokument, bool shallDelete)
+        public Printjop(string pathToPrint, bool ispath, SolidBrush color, Font font, PrintDocument dokument, bool shallDelete)
         {
-            PathToPrint = pathToPrint;
+            this.ispath = ispath;
+            str = pathToPrint;
             Color = color;
             Font = font;
             this.dokument = dokument;

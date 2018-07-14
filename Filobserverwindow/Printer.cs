@@ -32,7 +32,8 @@ namespace Filobserverwindow
         {
         	Printjop actualpritjob;
         	Thread.Sleep(400);
-        	while (!PrintThreadstop && jobs.Count > 0)
+
+            while (!PrintThreadstop && jobs.Count >= 0)
         	{
         		if (jobs.Count !=0)
         		{
@@ -45,18 +46,35 @@ namespace Filobserverwindow
         		
         		if(actualpritjob != null)
         		{
-        			
-                    string[] printstring = File.ReadAllLines(actualpritjob.PathToPrint, Encoding.GetEncoding(437));
-                    if (actualpritjob.shallDelete)
-                    {
-                        File.Delete(actualpritjob.PathToPrint);
-                    }
+                    string[] printstring;
 
+                    if (actualpritjob.ispath)
+                    {
+                        printstring = File.ReadAllLines(actualpritjob.str, Encoding.GetEncoding(437));
+                        if (actualpritjob.shallDelete)
+                        {
+                            File.Delete(actualpritjob.str);
+                        }
+                    }
+                    else
+                    {
+                        printstring = new string[] { actualpritjob.str };
+                    }
                     strtoprint = string.Join("\r\n", printstring);
-                    strtoprint = strtoprint.Remove(strtoprint.Count() - 1, 1);
+                    printstring = strtoprint.Split(new Char[] { '\f'});
+                    strtoprint = printstring[0];
 
                     ColorToPrint = actualpritjob.Color;
-		        	FontToPrint = actualpritjob.Font;
+                    FontToPrint = actualpritjob.Font;
+                    for(int i = 1; i<printstring.Length; i++)
+                    {
+                        string item = printstring[i];
+                        if (item.Equals(""))
+                        {
+                            continue;
+                        }
+                        AddTooQueue(item, ColorToPrint, FontToPrint, actualpritjob.dokument);
+                    }
 
                     actualpritjob.dokument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(PrintDocument1_PrintPage);
 		        	actualpritjob.dokument.Print();
@@ -69,9 +87,18 @@ namespace Filobserverwindow
         {
             lock("Quelock")
             {
-                jobs.Enqueue(new Printjop(PathToPrint, Color, Font, dokument, shallDelete));
+                jobs.Enqueue(new Printjop(PathToPrint, true, Color, Font, dokument, shallDelete));
             }
             
+        }
+
+        public void AddTooQueue(string StrtoPrint, SolidBrush Color, Font Font, System.Drawing.Printing.PrintDocument dokument)
+        {
+            lock ("Quelock")
+            {
+                jobs.Enqueue(new Printjop(StrtoPrint, false, Color, Font, dokument, false));
+            }
+
         }
 
         private void PrintDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)

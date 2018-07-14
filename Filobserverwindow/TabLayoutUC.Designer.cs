@@ -1,4 +1,6 @@
-﻿namespace Filobserverwindow
+﻿using System;
+
+namespace Filobserverwindow
 {
     partial class TabLayoutUC
     {
@@ -173,6 +175,7 @@
             // 
             // BtStop
             // 
+            this.BtStop.Enabled = false;
             this.BtStop.Location = new System.Drawing.Point(87, 180);
             this.BtStop.Name = "BtStop";
             this.BtStop.Size = new System.Drawing.Size(100, 31);
@@ -212,6 +215,7 @@
             this.startobserver.TabIndex = 17;
             this.startobserver.Text = "Start";
             this.startobserver.UseVisualStyleBackColor = true;
+            this.startobserver.Click += new System.EventHandler(this.startobserver_Click);
             // 
             // label3
             // 
@@ -239,6 +243,7 @@
             this.observerdir.Name = "observerdir";
             this.observerdir.Size = new System.Drawing.Size(143, 20);
             this.observerdir.TabIndex = 7;
+            this.observerdir.TextChanged += new System.EventHandler(this.observerdir_TextChanged);
             // 
             // observerpath
             // 
@@ -254,19 +259,19 @@
             this.newTabToolStripMenuItem,
             this.delTabToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(138, 48);
             // 
             // newTabToolStripMenuItem
             // 
             this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
-            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.newTabToolStripMenuItem.Text = "new Tab";
             this.newTabToolStripMenuItem.Click += new System.EventHandler(this.newTabToolStripMenuItem_Click);
             // 
             // delTabToolStripMenuItem
             // 
             this.delTabToolStripMenuItem.Name = "delTabToolStripMenuItem";
-            this.delTabToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.delTabToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.delTabToolStripMenuItem.Text = "Tab löschen";
             this.delTabToolStripMenuItem.Click += new System.EventHandler(this.delTabToolStripMenuItem_Click);
             // 
