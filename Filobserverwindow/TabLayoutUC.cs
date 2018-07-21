@@ -9,40 +9,79 @@ namespace Filobserverwindow
 {
     public partial class TabLayoutUC : UserControl
     {
-        string observerdirstr;
-        FileSystemWatcher watcher1;
-        Dictionary<string, FileandTimer> createdfiles;
+        private static string observerdirstr;
+        private FileSystemWatcher watcher1;
+        private Dictionary<string, FileandTimer> createdfiles;
         private static System.Timers.Timer timer1;
-        private Font printFont;
-        private SolidBrush printColor;
+        private static Font printFont;
+        public static SolidBrush printColor;
         Printer Printer;
+        public decimal Delaytime
+        {
+            get { return delaytime1.Value; }
+        }
+        public string Getpathstring
+        {
+            get { return observerdirstr; }
+        }
+        public Font GetFont
+        {
+            get { return printFont; }
+        }
+        public Color GetColor
+        {
+            get { return printColor.Color; }
+        }
 
-        public TabLayoutUC()
+        public TabLayoutUC(Printer printer)
         {
             InitializeComponent();
             printFont = new Font("Arial", 12);
             printColor = new SolidBrush(Color.Black);
-            Printer = new Printer();
+            Printer = printer;
             createdfiles = new Dictionary<string, FileandTimer>();
             observerdir.Text = observerdirstr;
+            delaytime1.Value = 1;
             TextPeview.Text = "abcABC123";
             TextPeview.Font = printFont;
             TextPeview.ForeColor = printColor.Color;
+            this.printDocument1.DefaultPageSettings.Margins.Bottom = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Left = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Right = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Top = 55;
         }
 
-        private void observerdialog_Click(object sender, EventArgs e)
+        public TabLayoutUC(Printer printer, Font font, Color color,String path, decimal whaitTimer )
+        {
+            InitializeComponent();
+            printFont = font;
+            printColor = new SolidBrush(color);
+            Printer = printer;
+            createdfiles = new Dictionary<string, FileandTimer>();
+            observerdir.Text = observerdirstr = path;
+            delaytime1.Value = whaitTimer;
+            TextPeview.Text = "abcABC123";
+            TextPeview.Font = printFont;
+            TextPeview.ForeColor = printColor.Color;
+            this.printDocument1.DefaultPageSettings.Margins.Bottom = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Left = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Right = 0;
+            this.printDocument1.DefaultPageSettings.Margins.Top = 55;
+        }
+
+        private void Observerdialog_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1.ShowDialog();
             observerdirstr = folderBrowserDialog1.SelectedPath;
             observerdir.Text = observerdirstr;
         }
 
-        private void observerdir_TextChanged(object sender, EventArgs e)
+        private void Observerdir_TextChanged(object sender, EventArgs e)
         {
             observerdirstr = observerdir.Text;
         }
 
-        private void startobserver_Click(object sender, EventArgs e)
+        private void Startobserver_Click(object sender, EventArgs e)
         {
             if (Directory.Exists(observerdirstr))
             {
@@ -53,9 +92,9 @@ namespace Filobserverwindow
                 }
                 watcher1 = new FileSystemWatcher(observerdirstr);
                 Debug.Print("Start twatcher at: " + observerdirstr);
-                watcher1.Changed += new FileSystemEventHandler(watcher1_Changed);
-                watcher1.Created += new FileSystemEventHandler(watcher1_Created);
-                watcher1.Deleted += new FileSystemEventHandler(watcher1_Deleted);
+                watcher1.Changed += new FileSystemEventHandler(Watcher1_Changed);
+                watcher1.Created += new FileSystemEventHandler(Watcher1_Created);
+                watcher1.Deleted += new FileSystemEventHandler(Watcher1_Deleted);
                 watcher1.Renamed += new RenamedEventHandler(OnRenamed);
                 watcher1.EnableRaisingEvents = true;
                 startobserver.Enabled = false;
@@ -72,12 +111,12 @@ namespace Filobserverwindow
             BtStop.Enabled = false;
         }
 
-        static void watcher1_Changed(object source, FileSystemEventArgs e)
+        static void Watcher1_Changed(object source, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was " + e.ChangeType);
         }
 
-        void watcher1_Created(object sender, FileSystemEventArgs e)
+        void Watcher1_Created(object sender, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was" + e.ChangeType + " Timer started");
             timer1 = new System.Timers.Timer((int)(delaytime1.Value * 1000));
@@ -89,7 +128,7 @@ namespace Filobserverwindow
             createdfiles.Add(e.Name, temp);
         }
 
-        void watcher1_Deleted(object source, FileSystemEventArgs e)
+        void Watcher1_Deleted(object source, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was " + e.ChangeType);
             try
@@ -136,27 +175,30 @@ namespace Filobserverwindow
         {
             this.pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
             this.pageSetupDialog1.Document = this.printDocument1;
+            this.pageSetupDialog1.EnableMetric = true;
             this.pageSetupDialog1.ShowDialog();
         }
 
-        private void chosePrinter_Click(object sender, EventArgs e)
+        private void ChosePrinter_Click(object sender, EventArgs e)
         {
-            PrintDialog printDialog2 = new PrintDialog();
-            printDialog2.Document = printDocument1;
+            PrintDialog printDialog2 = new PrintDialog
+            {
+                Document = printDocument1
+            };
             DialogResult result = printDialog2.ShowDialog();
         }
 
-        private void newTabToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            addTab();
+            AddTab();
         }
 
-        private void delTabToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DelTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            delTab();
+            DelTab();
         }
 
-        private void delTab()
+        private void DelTab()
         {
             TabControl tabcontrol = (TabControl)Parent.Parent;
             if(tabcontrol.TabPages.Count > 1)
@@ -171,11 +213,11 @@ namespace Filobserverwindow
             
         }
 
-        private void addTab()
+        private void AddTab()
         {
             TabControl tabcontrol = (TabControl) this.Parent.Parent;
             TabPage newPage = new TabPage((tabcontrol.TabPages.Count).ToString());
-            newPage.Controls.Add(new TabLayoutUC());
+            newPage.Controls.Add(new TabLayoutUC(Printer));
             tabcontrol.TabPages.Add(newPage);
 
         }

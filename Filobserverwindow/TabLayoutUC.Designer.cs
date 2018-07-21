@@ -85,7 +85,7 @@ namespace Filobserverwindow
             this.chosePrinter.TabIndex = 5;
             this.chosePrinter.Text = "Drucker wählen";
             this.chosePrinter.UseVisualStyleBackColor = true;
-            this.chosePrinter.Click += new System.EventHandler(this.chosePrinter_Click);
+            this.chosePrinter.Click += new System.EventHandler(this.ChosePrinter_Click);
             // 
             // label2
             // 
@@ -215,7 +215,7 @@ namespace Filobserverwindow
             this.startobserver.TabIndex = 17;
             this.startobserver.Text = "Start";
             this.startobserver.UseVisualStyleBackColor = true;
-            this.startobserver.Click += new System.EventHandler(this.startobserver_Click);
+            this.startobserver.Click += new System.EventHandler(this.Startobserver_Click);
             // 
             // label3
             // 
@@ -233,7 +233,7 @@ namespace Filobserverwindow
             this.observerdialog.TabIndex = 8;
             this.observerdialog.Text = "Datei...";
             this.observerdialog.UseVisualStyleBackColor = true;
-            this.observerdialog.Click += new System.EventHandler(this.observerdialog_Click);
+            this.observerdialog.Click += new System.EventHandler(this.Observerdialog_Click);
             // 
             // observerdir
             // 
@@ -243,7 +243,7 @@ namespace Filobserverwindow
             this.observerdir.Name = "observerdir";
             this.observerdir.Size = new System.Drawing.Size(143, 20);
             this.observerdir.TabIndex = 7;
-            this.observerdir.TextChanged += new System.EventHandler(this.observerdir_TextChanged);
+            this.observerdir.TextChanged += new System.EventHandler(this.Observerdir_TextChanged);
             // 
             // observerpath
             // 
@@ -266,14 +266,14 @@ namespace Filobserverwindow
             this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
             this.newTabToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.newTabToolStripMenuItem.Text = "new Tab";
-            this.newTabToolStripMenuItem.Click += new System.EventHandler(this.newTabToolStripMenuItem_Click);
+            this.newTabToolStripMenuItem.Click += new System.EventHandler(this.NewTabToolStripMenuItem_Click);
             // 
             // delTabToolStripMenuItem
             // 
             this.delTabToolStripMenuItem.Name = "delTabToolStripMenuItem";
             this.delTabToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.delTabToolStripMenuItem.Text = "Tab löschen";
-            this.delTabToolStripMenuItem.Click += new System.EventHandler(this.delTabToolStripMenuItem_Click);
+            this.delTabToolStripMenuItem.Click += new System.EventHandler(this.DelTabToolStripMenuItem_Click);
             // 
             // TabLayoutUC
             // 

@@ -10,14 +10,13 @@ namespace Filobserverwindow
 {
     public class FileandTimer
     {
-        string Name;
         public FileSystemEventArgs Datei;
         public System.Timers.Timer TimerOfFile { get; private set; }
         public Printer Printer;
-        private Font jobsFont;
-        private SolidBrush jobsColor;
-        private bool shallDelete;
-        System.Drawing.Printing.PrintDocument jobsdokument;
+        private readonly Font jobsFont;
+        private readonly SolidBrush jobsColor;
+        private readonly bool shallDelete;
+        readonly System.Drawing.Printing.PrintDocument jobsdokument;
 
 
         public FileandTimer(System.Timers.Timer timer, FileSystemEventArgs Dateiinfos , Printer Printer, 
