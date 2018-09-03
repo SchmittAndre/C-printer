@@ -226,14 +226,19 @@ namespace Filobserverwindow
         private void DelTab()
         {
             TabControl tabcontrol = (TabControl)Parent.Parent;
-            if(tabcontrol.TabPages.Count > 1)
+            int tabindex = tabcontrol.SelectedIndex;
+            if (tabcontrol.TabPages.Count > 1)
             {
                 if (watcher1 != null)
                     {
                         watcher1.EnableRaisingEvents = false;
                         watcher1 = null;
                     }
-                tabcontrol.TabPages.Remove((TabPage)this.Parent);
+                tabcontrol.TabPages.Remove((TabPage)Parent);
+            }
+            if (tabindex != 0)
+            {
+                tabcontrol.SelectedIndex = tabindex - 1;
             }
         }
 

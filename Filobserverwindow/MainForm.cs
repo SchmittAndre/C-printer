@@ -55,7 +55,7 @@ namespace Filobserverwindow
             }
         }
 
-        
+
 
         void MainFormFormClosed(object sender, FormClosedEventArgs e)
         {
@@ -95,14 +95,14 @@ namespace Filobserverwindow
                     fs.Close();
                 }
 
-                foreach(Tabsave tab in i.Tabs)
+                foreach (Tabsave tab in i.Tabs)
                 {
                     TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
-                    newPage.Controls.Add(new TabLayoutUC(Printer, tab.Font,  tab.Color,  tab.Path, tab.started, tab.waitTime));
+                    newPage.Controls.Add(new TabLayoutUC(Printer, tab.Font, tab.Color, tab.Path, tab.started, tab.waitTime));
                     this.tabControl1.TabPages.Add(newPage);
                 }
             }
-            
+
         }
 
         private void SavePagesettings()
@@ -120,16 +120,11 @@ namespace Filobserverwindow
         private void SaveIni(string filename)
         {
 
-            /*SavePagesettings();
-            return;*/
-            // Creates a new XmlSerializer.
             XmlSerializer s =
             new XmlSerializer(typeof(MyRootClass));
-
-            // Writing the file requires a StreamWriter.
+            
             TextWriter myWriter = new StreamWriter(filename);
-
-            // Creates an instance of the class to serialize. 
+            
             MyRootClass myRootClass = new MyRootClass();
 
             Tabsave[] Tabsaves = new Tabsave[tabControl1.TabCount];
@@ -139,13 +134,11 @@ namespace Filobserverwindow
                 TabLayoutUC tablayout = (TabLayoutUC)tab.Controls[0];
                 Tabsave item1 = new Tabsave
                 {
-                    // Sets the objects' properties.
                     waitTime = tablayout.Delaytime,
                     Path = tablayout.Getpathstring,
                     Color = tablayout.GetColor,
                     Font = tablayout.GetFont,
                     started = tablayout.Watcherstarted,
-                    //printDokument = tablayout.GetPrintDokument,
                     pagesettings = tablayout.Pagesettings,
                 };
                 if (item1.pagesettings.PrinterSettings.Duplex == 0)
@@ -155,7 +148,7 @@ namespace Filobserverwindow
                 Tabsaves[i] = item1;
             }
             myRootClass.anz = Tabsaves.Length;
-            
+
             myRootClass.Tabs = Tabsaves;
             try
             {
@@ -185,12 +178,31 @@ namespace Filobserverwindow
             this.tabControl1.TabPages.Add(newPage);
         }
 
+        private void TabControl1_MouseClick(object sender, MouseEventArgs e)
+        {
+            var tabControl = sender as TabControl;
+            TabPage tabPageCurrent = null;
+
+            if (e.Button == MouseButtons.Middle)
+            {
+                for (var i = 0; i < tabControl.TabCount; i++)
+                {
+                    if (!tabControl.GetTabRect(i).Contains(e.Location))
+                        continue;
+                    tabPageCurrent = tabControl.TabPages[i];
+                    break;
+                }
+                if (tabPageCurrent != null && tabControl.TabCount > 1)
+                    tabControl.TabPages.Remove(tabPageCurrent);
+            }
+        }
     }
+
     public class MyRootClass
     {
         private Tabsave[] tabs;
         public int anz;
-        
+
         [XmlArrayItem(ElementName = "tab",
         IsNullable = true,
         Type = typeof(Tabsave))]
@@ -200,7 +212,7 @@ namespace Filobserverwindow
             get { return tabs; }
             set { tabs = value; }
         }
-        
+
     }
 
     [Serializable()]
