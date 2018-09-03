@@ -124,7 +124,7 @@ namespace Filobserverwindow
                 
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
             }
-            XmlSerializer s =
+            XmlSerializer serializer =
             new XmlSerializer(typeof(MyRootClass));
 
 
@@ -157,23 +157,13 @@ namespace Filobserverwindow
             myRootClass.Tabs = Tabsaves;
             try
             {
-                s.Serialize(myWriter, myRootClass);
+                serializer.Serialize(myWriter, myRootClass);
             }
             catch
             {
                 Debug.Print("Printer not Serializable");
             }
             myWriter.Close();
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            SaveIni(path);
-        }
-
-        private void Button2_Click(object sender, EventArgs e)
-        {
-            LoadIni(path);
         }
 
         private void AddStandardtab()
