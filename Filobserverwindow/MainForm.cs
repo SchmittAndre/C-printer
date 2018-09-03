@@ -8,13 +8,15 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using System.ComponentModel;
+using System.Drawing.Printing;
 
 namespace Filobserverwindow
 {
@@ -40,9 +42,7 @@ namespace Filobserverwindow
             {
                 if (new FileInfo(path).Length == 0)
                 {
-                    TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
-                    newPage.Controls.Add(new TabLayoutUC(Printer));
-                    this.tabControl1.TabPages.Add(newPage);
+                    AddStandardtab();
                 }
                 else
                 {
@@ -51,12 +51,12 @@ namespace Filobserverwindow
             }
             else
             {
-                TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
-                newPage.Controls.Add(new TabLayoutUC(Printer));
-                this.tabControl1.TabPages.Add(newPage);
+                AddStandardtab();
             }
         }
+
         
+
         void MainFormFormClosed(object sender, FormClosedEventArgs e)
         {
             //saveIni(path);
@@ -80,21 +80,48 @@ namespace Filobserverwindow
                 MyRootClass i;
 
                 // Use the Deserialize method to restore the object's state.
-                i = (MyRootClass)serializer.Deserialize(reader);
-                fs.Close();
+                try
+                {
+                    i = (MyRootClass)serializer.Deserialize(reader);
+                }
+                catch (Exception e)
+                {
+                    Debug.Print(e.Message);
+                    AddStandardtab();
+                    return;
+                }
+                finally
+                {
+                    fs.Close();
+                }
 
                 foreach(Tabsave tab in i.Tabs)
                 {
                     TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
-                    newPage.Controls.Add(new TabLayoutUC(Printer, tab.FontToSave,  tab.PrintColor,  tab.observerdirstr, tab.waitTime));
+                    newPage.Controls.Add(new TabLayoutUC(Printer, tab.Font,  tab.Color,  tab.Path, tab.started, tab.waitTime));
                     this.tabControl1.TabPages.Add(newPage);
                 }
             }
             
         }
 
+        private void SavePagesettings()
+        {
+            System.Drawing.Printing.PageSettings page_settings = new PageSettings();
+            StringBuilder xml_str = new StringBuilder();
+            StringWriter sw = new StringWriter(xml_str);
+
+            XmlSerializer xs = new XmlSerializer(typeof(PageSettings));
+            xs.Serialize(sw, page_settings);
+
+            sw.Close();
+        }
+
         private void SaveIni(string filename)
         {
+
+            /*SavePagesettings();
+            return;*/
             // Creates a new XmlSerializer.
             XmlSerializer s =
             new XmlSerializer(typeof(MyRootClass));
@@ -105,26 +132,39 @@ namespace Filobserverwindow
             // Creates an instance of the class to serialize. 
             MyRootClass myRootClass = new MyRootClass();
 
-            Tabsave[] myItems = new Tabsave[tabControl1.TabCount];
+            Tabsave[] Tabsaves = new Tabsave[tabControl1.TabCount];
             for (int i = 0; i < tabControl1.TabCount; i++)
             {
                 TabPage tab = tabControl1.TabPages[i];
-                TabLayoutUC test = (TabLayoutUC)tab.Controls[0];
+                TabLayoutUC tablayout = (TabLayoutUC)tab.Controls[0];
                 Tabsave item1 = new Tabsave
                 {
                     // Sets the objects' properties.
-                    waitTime = test.Delaytime,
-                    observerdirstr = test.Getpathstring,
-                    PrintColor = test.GetColor,
-                    FontToSave = test.GetFont
+                    waitTime = tablayout.Delaytime,
+                    Path = tablayout.Getpathstring,
+                    Color = tablayout.GetColor,
+                    Font = tablayout.GetFont,
+                    started = tablayout.Watcherstarted,
+                    //printDokument = tablayout.GetPrintDokument,
+                    pagesettings = tablayout.Pagesettings,
                 };
-                myItems[i] = item1;
+                if (item1.pagesettings.PrinterSettings.Duplex == 0)
+                {
+                    item1.pagesettings.PrinterSettings.Duplex = Duplex.Simplex;
+                }
+                Tabsaves[i] = item1;
             }
-            myRootClass.anz = myItems.Length;
+            myRootClass.anz = Tabsaves.Length;
             
-            myRootClass.Tabs = myItems;
-            
-            s.Serialize(myWriter, myRootClass);
+            myRootClass.Tabs = Tabsaves;
+            try
+            {
+                s.Serialize(myWriter, myRootClass);
+            }
+            catch
+            {
+                Debug.Print("Printer not Serializable");
+            }
             myWriter.Close();
         }
 
@@ -137,6 +177,14 @@ namespace Filobserverwindow
         {
             LoadIni(path);
         }
+
+        private void AddStandardtab()
+        {
+            TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
+            newPage.Controls.Add(new TabLayoutUC(Printer));
+            this.tabControl1.TabPages.Add(newPage);
+        }
+
     }
     public class MyRootClass
     {
@@ -159,27 +207,29 @@ namespace Filobserverwindow
     public class Tabsave
     {
         [XmlIgnore()]
-        public Font FontToSave { get; set; }
-        public string observerdirstr;
+        public Font Font { get; set; }
+        public string Path;
         public decimal waitTime;
+        public bool started;
         [XmlIgnore]
-        public Color PrintColor { get; set; } 
+        public Color Color { get; set; }
+        //public System.Drawing.Printing.PrintDocument printDokument;
+        public System.Drawing.Printing.PageSettings pagesettings;
 
         [XmlElement("PrintColor")]
-        public int BackColorAsArgb
+        public int ColorAsArgb
         {
-            get { return PrintColor.ToArgb(); }
-            set { PrintColor = Color.FromArgb(value); }
+            get { return Color.ToArgb(); }
+            set { Color = Color.FromArgb(value); }
         }
         //public PrintDialog printDialog2;
 
         [Browsable(false)]
         public string FontSerialize
         {
-            get { return FontSerializationHelper.ToString(FontToSave); }
-            set { FontToSave = FontSerializationHelper.FromString(value); }
+            get { return FontSerializationHelper.ToString(Font); }
+            set { Font = FontSerializationHelper.FromString(value); }
         }
+
     }
-
-
 }

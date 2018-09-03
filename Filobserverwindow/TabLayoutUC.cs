@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Diagnostics;
+using System.Drawing.Printing;
 
 namespace Filobserverwindow
 {
@@ -12,10 +13,12 @@ namespace Filobserverwindow
         private static string observerdirstr;
         private FileSystemWatcher watcher1;
         private Dictionary<string, FileandTimer> createdfiles;
-        private static System.Timers.Timer timer1;
-        private static Font printFont;
-        public static SolidBrush printColor;
+        private System.Timers.Timer timer1;
+        private Font printFont;
+        public SolidBrush printColor;
+        private bool started;
         Printer Printer;
+        private PageSettings pagesettings;
         public decimal Delaytime
         {
             get { return delaytime1.Value; }
@@ -32,6 +35,16 @@ namespace Filobserverwindow
         {
             get { return printColor.Color; }
         }
+        public bool Watcherstarted
+        {
+            get { return started; }
+        }
+        public System.Drawing.Printing.PrintDocument GetPrintDokument
+        {
+            get { return this.printDocument1; }
+        }
+
+        public PageSettings Pagesettings { get => pagesettings; set => pagesettings = value; }
 
         public TabLayoutUC(Printer printer)
         {
@@ -45,13 +58,19 @@ namespace Filobserverwindow
             TextPeview.Text = "abcABC123";
             TextPeview.Font = printFont;
             TextPeview.ForeColor = printColor.Color;
-            this.printDocument1.DefaultPageSettings.Margins.Bottom = 0;
-            this.printDocument1.DefaultPageSettings.Margins.Left = 0;
-            this.printDocument1.DefaultPageSettings.Margins.Right = 0;
-            this.printDocument1.DefaultPageSettings.Margins.Top = 55;
+            started = false;
+
+            
+            printDocument1.DefaultPageSettings.Margins.Bottom = 0;
+            printDocument1.DefaultPageSettings.Margins.Left = 0;
+            printDocument1.DefaultPageSettings.Margins.Right = 0;
+            printDocument1.DefaultPageSettings.Margins.Top = 55;
+            Pagesettings = new PageSettings();
+            this.Pagesettings.PrinterSettings.Duplex = Duplex.Default;
+            Pagesettings.PrinterSettings.PrintFileName = "does not matter, unused if PrintToFile == false";
         }
 
-        public TabLayoutUC(Printer printer, Font font, Color color,String path, decimal whaitTimer )
+        public TabLayoutUC(Printer printer, Font font, Color color,String path, bool started, decimal whaitTimer)
         {
             InitializeComponent();
             printFont = font;
@@ -62,11 +81,15 @@ namespace Filobserverwindow
             delaytime1.Value = whaitTimer;
             TextPeview.Text = "abcABC123";
             TextPeview.Font = printFont;
+            this.started = started;
             TextPeview.ForeColor = printColor.Color;
-            this.printDocument1.DefaultPageSettings.Margins.Bottom = 0;
-            this.printDocument1.DefaultPageSettings.Margins.Left = 0;
-            this.printDocument1.DefaultPageSettings.Margins.Right = 0;
-            this.printDocument1.DefaultPageSettings.Margins.Top = 55;
+            printDocument1.DefaultPageSettings.Margins.Bottom = 0;
+            printDocument1.DefaultPageSettings.Margins.Left = 0;
+            printDocument1.DefaultPageSettings.Margins.Right = 0;
+            printDocument1.DefaultPageSettings.Margins.Top = 55;
+            Pagesettings = new PageSettings();
+            Pagesettings.PrinterSettings.Duplex = Duplex.Default;
+            Pagesettings.PrinterSettings.PrintFileName = "does not matter, unused if PrintToFile == false";
         }
 
         private void Observerdialog_Click(object sender, EventArgs e)
@@ -98,6 +121,7 @@ namespace Filobserverwindow
                 watcher1.Renamed += new RenamedEventHandler(OnRenamed);
                 watcher1.EnableRaisingEvents = true;
                 startobserver.Enabled = false;
+                started = true;
                 BtStop.Enabled = true;
             }
         }
@@ -109,6 +133,7 @@ namespace Filobserverwindow
             Debug.Print("stop watcher");
             startobserver.Enabled = true;
             BtStop.Enabled = false;
+            started = false;
         }
 
         static void Watcher1_Changed(object source, FileSystemEventArgs e)
@@ -173,7 +198,7 @@ namespace Filobserverwindow
 
         private void B_pageSettup_Click(object sender, EventArgs e)
         {
-            this.pageSetupDialog1.PageSettings = new System.Drawing.Printing.PageSettings();
+            this.pageSetupDialog1.PageSettings = Pagesettings;
             this.pageSetupDialog1.Document = this.printDocument1;
             this.pageSetupDialog1.EnableMetric = true;
             this.pageSetupDialog1.ShowDialog();
@@ -210,7 +235,6 @@ namespace Filobserverwindow
                     }
                 tabcontrol.TabPages.Remove((TabPage)this.Parent);
             }
-            
         }
 
         private void AddTab()
