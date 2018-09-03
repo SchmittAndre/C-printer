@@ -29,7 +29,7 @@ namespace Filobserverwindow
         private Font printFont;
         private SolidBrush printColor;
         Printer Printer;
-        string path = @"D:\myXml.xml";
+        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DirPrint", "Save.txt");
 
         public MainForm()
         {
@@ -94,7 +94,7 @@ namespace Filobserverwindow
                 {
                     fs.Close();
                 }
-
+                this.tabControl1.TabPages.Clear();
                 foreach (Tabsave tab in i.Tabs)
                 {
                     TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
@@ -119,12 +119,17 @@ namespace Filobserverwindow
 
         private void SaveIni(string filename)
         {
-
+            if (!System.IO.Directory.Exists(path))
+            {
+                
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            }
             XmlSerializer s =
             new XmlSerializer(typeof(MyRootClass));
-            
+
+
             TextWriter myWriter = new StreamWriter(filename);
-            
+
             MyRootClass myRootClass = new MyRootClass();
 
             Tabsave[] Tabsaves = new Tabsave[tabControl1.TabCount];
