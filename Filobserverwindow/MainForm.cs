@@ -209,8 +209,6 @@ namespace Filobserverwindow
         public bool started;
         [XmlIgnore]
         public Color Color { get; set; }
-        //public System.Drawing.Printing.PrintDocument printDokument;
-        public System.Drawing.Printing.PageSettings pagesettings;
 
         [XmlElement("PrintColor")]
         public int ColorAsArgb
@@ -227,5 +225,6 @@ namespace Filobserverwindow
             set { Font = FontSerializationHelper.FromString(value); }
         }
 
+        public PageSettings pagesettings;
     }
 }

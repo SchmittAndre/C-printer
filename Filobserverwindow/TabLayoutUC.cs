@@ -60,6 +60,8 @@ namespace Filobserverwindow
             TextPeview.Font = printFont;
             TextPeview.ForeColor = printColor.Color;
             started = false;
+            pageSetupDialog1.Document = printDocument1;
+            pageSetupDialog1.EnableMetric = true;
             printDocument1.DefaultPageSettings.Margins.Bottom = 0;
             printDocument1.DefaultPageSettings.Margins.Left = 0;
             printDocument1.DefaultPageSettings.Margins.Right = 0;
