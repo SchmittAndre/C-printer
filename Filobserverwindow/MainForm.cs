@@ -59,7 +59,7 @@ namespace Filobserverwindow
 
         void MainFormFormClosed(object sender, FormClosedEventArgs e)
         {
-            //saveIni(path);
+            SaveIni(path);
             Printer.PrintThreadstop = true;
             Printer.PrintThread.Join();
             Debug.Print("Test");
@@ -98,23 +98,12 @@ namespace Filobserverwindow
                 foreach (Tabsave tab in i.Tabs)
                 {
                     TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
-                    newPage.Controls.Add(new TabLayoutUC(Printer, tab.Font, tab.Color, tab.Path, tab.started, tab.waitTime));
+                    newPage.Controls.Add(new TabLayoutUC(Printer, tab.Font, tab.Color, tab.Path, tab.started, tab.waitTime, tab.pagesettings));
+                    
                     this.tabControl1.TabPages.Add(newPage);
                 }
             }
 
-        }
-
-        private void SavePagesettings()
-        {
-            System.Drawing.Printing.PageSettings page_settings = new PageSettings();
-            StringBuilder xml_str = new StringBuilder();
-            StringWriter sw = new StringWriter(xml_str);
-
-            XmlSerializer xs = new XmlSerializer(typeof(PageSettings));
-            xs.Serialize(sw, page_settings);
-
-            sw.Close();
         }
 
         private void SaveIni(string filename)
