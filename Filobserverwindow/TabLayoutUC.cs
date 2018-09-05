@@ -80,7 +80,10 @@ namespace Filobserverwindow
             delaytime1.Value = whaitTimer;
             TextPeview.Text = "abcABC123";
             TextPeview.Font = printFont;
-            this.started = started;
+            if(started)
+            {
+                StartObserver();
+            }
             TextPeview.ForeColor = printColor.Color;
             printDocument1.DefaultPageSettings.Margins.Bottom = 0;
             printDocument1.DefaultPageSettings.Margins.Left = 0;
@@ -107,6 +110,11 @@ namespace Filobserverwindow
         }
 
         private void Startobserver_Click(object sender, EventArgs e)
+        {
+            StartObserver();
+        }
+
+        private void StartObserver()
         {
             if (Directory.Exists(observerdirstr))
             {
