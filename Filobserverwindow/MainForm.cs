@@ -115,9 +115,6 @@ namespace Filobserverwindow
             XmlSerializer serializer =
             new XmlSerializer(typeof(MyRootClass));
 
-
-            TextWriter myWriter = new StreamWriter(filename);
-
             MyRootClass myRootClass = new MyRootClass();
 
             Tabsave[] Tabsaves = new Tabsave[tabControl1.TabCount];
@@ -152,6 +149,7 @@ namespace Filobserverwindow
             myRootClass.anz = Tabsaves.Length;
 
             myRootClass.Tabs = Tabsaves;
+            TextWriter myWriter = new StreamWriter(filename);
             try
             {
                 serializer.Serialize(myWriter, myRootClass);
@@ -160,7 +158,13 @@ namespace Filobserverwindow
             {
                 Debug.Print("Printer not Serializable");
             }
-            myWriter.Close();
+            finally
+            {
+                myWriter.Close();
+            }
+
+
+            
         }
 
         private void AddStandardtab()
