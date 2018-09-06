@@ -18,7 +18,7 @@ namespace Filobserverwindow
         public SolidBrush printColor;
         private bool started;
         Printer Printer;
-        private PageSettings pagesettings;
+
         public decimal Delaytime
         {
             get { return delaytime1.Value; }
@@ -39,12 +39,12 @@ namespace Filobserverwindow
         {
             get { return started; }
         }
-        public System.Drawing.Printing.PrintDocument GetPrintDokument
+        public System.Drawing.Printing.PrintDocument PrintDokument
         {
-            get { return this.printDocument1; }
+            get { return printDocument1; }
+            set { printDocument1 = value; }
         }
-
-        public PageSettings Pagesettings { get => pagesettings; set => pagesettings = value; }
+        
 
         public TabLayoutUC(Printer printer)
         {
@@ -65,9 +65,10 @@ namespace Filobserverwindow
             printDocument1.DefaultPageSettings.Margins.Left = 0;
             printDocument1.DefaultPageSettings.Margins.Right = 0;
             printDocument1.DefaultPageSettings.Margins.Top = 55;
-            Pagesettings = new PageSettings();
-            this.Pagesettings.PrinterSettings.Duplex = Duplex.Default;
-            Pagesettings.PrinterSettings.PrintFileName = "does not matter, unused if PrintToFile == false";
+            printDocument1.DefaultPageSettings.PrinterSettings.Duplex = Duplex.Default;
+            printDocument1.DefaultPageSettings.PrinterSettings.PrintFileName = "not realy";
+            printDocument1.PrinterSettings.Duplex = Duplex.Simplex;
+            printDocument1.PrinterSettings.PrintFileName = "dose this matter?";
         }
 
         public TabLayoutUC(Printer printer, Font font, Color color,String path, bool started, decimal whaitTimer)
@@ -90,9 +91,6 @@ namespace Filobserverwindow
             printDocument1.DefaultPageSettings.Margins.Left = 0;
             printDocument1.DefaultPageSettings.Margins.Right = 0;
             printDocument1.DefaultPageSettings.Margins.Top = 55;
-            Pagesettings = new PageSettings();
-            Pagesettings.PrinterSettings.Duplex = Duplex.Default;
-            Pagesettings.PrinterSettings.PrintFileName = "does not matter, unused if PrintToFile == false";
         }
 
         private void Observerdialog_Click(object sender, EventArgs e)
@@ -125,7 +123,6 @@ namespace Filobserverwindow
                 Debug.Print("Start twatcher at: " + observerdirstr);
                 watcher1.Changed += new FileSystemEventHandler(Watcher1_Changed);
                 watcher1.Created += new FileSystemEventHandler(Watcher1_Created);
-                watcher1.Deleted += new FileSystemEventHandler(Watcher1_Deleted);
                 watcher1.Renamed += new RenamedEventHandler(OnRenamed);
                 watcher1.EnableRaisingEvents = true;
                 startobserver.Enabled = false;
@@ -161,21 +158,6 @@ namespace Filobserverwindow
             createdfiles.Add(e.Name, temp);
         }
 
-        void Watcher1_Deleted(object source, FileSystemEventArgs e)
-        {
-            Debug.Print("File " + e.Name + " was " + e.ChangeType);
-            try
-            {
-                FileandTimer temp = createdfiles[e.Name];
-                temp.TimerOfFile.Stop();
-                createdfiles.Remove(e.Name);
-            }
-            catch
-            {
-                Debug.Print("deleted file ignored");
-            }
-        }
-
         private void OnRenamed(object source, RenamedEventArgs e)
         {
             // Specify what is done when a file is renamed.
@@ -206,8 +188,7 @@ namespace Filobserverwindow
 
         private void B_pageSettup_Click(object sender, EventArgs e)
         {
-            this.pageSetupDialog1.PageSettings = Pagesettings;
-            this.pageSetupDialog1.Document = this.printDocument1;
+            this.pageSetupDialog1.Document = printDocument1;
             this.pageSetupDialog1.EnableMetric = true;
             this.pageSetupDialog1.ShowDialog();
         }

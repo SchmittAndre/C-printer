@@ -59,7 +59,7 @@ namespace Filobserverwindow
 
         void MainFormFormClosed(object sender, FormClosedEventArgs e)
         {
-            //saveIni(path);
+            SaveIni(path);
             Printer.PrintThreadstop = true;
             Printer.PrintThread.Join();
             Debug.Print("Test");
@@ -71,15 +71,12 @@ namespace Filobserverwindow
             {
                 XmlSerializer serializer = new
                 XmlSerializer(typeof(MyRootClass));
-
-                // A FileStream is needed to read the XML document.
+                
                 FileStream fs = new FileStream(filename, FileMode.Open);
                 XmlReader reader = XmlReader.Create(fs);
-
-                // Declare an object variable of the type to be deserialized.
+                
                 MyRootClass i;
-
-                // Use the Deserialize method to restore the object's state.
+                
                 try
                 {
                     i = (MyRootClass)serializer.Deserialize(reader);
@@ -98,23 +95,14 @@ namespace Filobserverwindow
                 foreach (Tabsave tab in i.Tabs)
                 {
                     TabPage newPage = new TabPage((tabControl1.TabPages.Count).ToString());
-                    newPage.Controls.Add(new TabLayoutUC(Printer, tab.Font, tab.Color, tab.Path, tab.started, tab.waitTime));
+                    TabLayoutUC tl = new TabLayoutUC(Printer, tab.Font, tab.Color, tab.Path, tab.started, tab.waitTime);
+                    tl.PrintDokument.PrinterSettings = tab.printerSettings;
+                    tl.PrintDokument.DefaultPageSettings = tab.pageSettings;
+                    newPage.Controls.Add(tl);
                     this.tabControl1.TabPages.Add(newPage);
                 }
             }
 
-        }
-
-        private void SavePagesettings()
-        {
-            System.Drawing.Printing.PageSettings page_settings = new PageSettings();
-            StringBuilder xml_str = new StringBuilder();
-            StringWriter sw = new StringWriter(xml_str);
-
-            XmlSerializer xs = new XmlSerializer(typeof(PageSettings));
-            xs.Serialize(sw, page_settings);
-
-            sw.Close();
         }
 
         private void SaveIni(string filename)
@@ -144,11 +132,12 @@ namespace Filobserverwindow
                     Color = tablayout.GetColor,
                     Font = tablayout.GetFont,
                     started = tablayout.Watcherstarted,
-                    pagesettings = tablayout.Pagesettings,
+                    printerSettings = tablayout.PrintDokument.PrinterSettings,
+                    pageSettings = tablayout.PrintDokument.DefaultPageSettings,
                 };
-                if (item1.pagesettings.PrinterSettings.Duplex == 0)
+                if (item1.printerSettings.Duplex == 0)
                 {
-                    item1.pagesettings.PrinterSettings.Duplex = Duplex.Simplex;
+                    item1.printerSettings.Duplex = Duplex.Simplex;
                 }
                 Tabsaves[i] = item1;
             }
@@ -236,6 +225,7 @@ namespace Filobserverwindow
             set { Font = FontSerializationHelper.FromString(value); }
         }
 
-        public PageSettings pagesettings;
+        public PageSettings pageSettings;
+        public PrinterSettings printerSettings;
     }
 }
