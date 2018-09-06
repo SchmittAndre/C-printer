@@ -66,9 +66,8 @@ namespace Filobserverwindow
             printDocument1.DefaultPageSettings.Margins.Right = 0;
             printDocument1.DefaultPageSettings.Margins.Top = 55;
             printDocument1.DefaultPageSettings.PrinterSettings.Duplex = Duplex.Default;
-            printDocument1.DefaultPageSettings.PrinterSettings.PrintFileName = "not realy";
-            printDocument1.PrinterSettings.Duplex = Duplex.Simplex;
-            printDocument1.PrinterSettings.PrintFileName = "dose this matter?";
+            printDocument1.DefaultPageSettings.PrinterSettings.PrintFileName = "document";
+            
         }
 
         public TabLayoutUC(Printer printer, Font font, Color color,String path, bool started, decimal whaitTimer)
@@ -146,11 +145,17 @@ namespace Filobserverwindow
             Debug.Print("File " + e.Name + " was " + e.ChangeType);
         }
 
+        private void FileIsInQueue(FileandTimer obj)
+        {
+            createdfiles.Remove(obj.Datei.Name);
+            obj.ObjectDied -= FileIsInQueue;
+        }
+
         void Watcher1_Created(object sender, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was" + e.ChangeType + " Timer started");
             timer1 = new System.Timers.Timer((int)(delaytime1.Value * 1000));
-            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1, ShallDelete.Checked);
+            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1, ShallDelete.Checked, FileIsInQueue);
             // Hook up the Elapsed event for the timer. 
             temp.TimerOfFile.Elapsed += temp.Timer1Tick;
             temp.TimerOfFile.AutoReset = false;
@@ -166,8 +171,9 @@ namespace Filobserverwindow
             createdfiles.Remove(e.OldName);
             temp.Datei = e;
             createdfiles.Add(e.Name, temp);
-
         }
+
+        
 
         private void B_Fonts_Click(object sender, EventArgs e)
         {

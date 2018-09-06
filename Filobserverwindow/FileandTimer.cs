@@ -17,10 +17,11 @@ namespace Filobserverwindow
         private readonly SolidBrush jobsColor;
         private readonly bool shallDelete;
         readonly System.Drawing.Printing.PrintDocument jobsdokument;
+        public event Action<FileandTimer> ObjectDied;
 
 
         public FileandTimer(System.Timers.Timer timer, FileSystemEventArgs Dateiinfos , Printer Printer, 
-            SolidBrush Color, Font Font, System.Drawing.Printing.PrintDocument dokument, bool shalldelete)
+            SolidBrush Color, Font Font, System.Drawing.Printing.PrintDocument dokument, bool shalldelete, Action<FileandTimer> isInQueue)
         {
             Datei = Dateiinfos;
             TimerOfFile = timer;
@@ -29,6 +30,7 @@ namespace Filobserverwindow
             this.jobsFont = Font;
             this.jobsdokument = dokument;
             this.shallDelete = shalldelete;
+            ObjectDied += isInQueue;
         }
 
         public void Timer1Tick(object sender, System.EventArgs e)
@@ -36,6 +38,7 @@ namespace Filobserverwindow
             Debug.Print("Datei: " + Datei.Name + " wurde erzeugt und wird nun ausgedruckt");
             TimerOfFile.Stop();
             Printer.AddTooQueue(Datei.FullPath, jobsColor, jobsFont, jobsdokument, shallDelete);
+            ObjectDied(this);
         }
     }
 }
