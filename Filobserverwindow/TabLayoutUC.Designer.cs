@@ -79,7 +79,7 @@ namespace Filobserverwindow
             // 
             // chosePrinter
             // 
-            this.chosePrinter.Location = new System.Drawing.Point(31, 107);
+            this.chosePrinter.Location = new System.Drawing.Point(32, 78);
             this.chosePrinter.Name = "chosePrinter";
             this.chosePrinter.Size = new System.Drawing.Size(112, 23);
             this.chosePrinter.TabIndex = 5;
@@ -107,7 +107,7 @@ namespace Filobserverwindow
             // 
             // B_pageSettup
             // 
-            this.B_pageSettup.Location = new System.Drawing.Point(31, 78);
+            this.B_pageSettup.Location = new System.Drawing.Point(32, 107);
             this.B_pageSettup.Name = "B_pageSettup";
             this.B_pageSettup.Size = new System.Drawing.Size(112, 23);
             this.B_pageSettup.TabIndex = 2;

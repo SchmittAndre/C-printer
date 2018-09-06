@@ -146,11 +146,17 @@ namespace Filobserverwindow
             Debug.Print("File " + e.Name + " was " + e.ChangeType);
         }
 
+        private void FileIsInQueue(FileandTimer obj)
+        {
+            createdfiles.Remove(obj.Datei.Name);
+            obj.ObjectDied -= FileIsInQueue;
+        }
+
         void Watcher1_Created(object sender, FileSystemEventArgs e)
         {
             Debug.Print("File " + e.Name + " was" + e.ChangeType + " Timer started");
             timer1 = new System.Timers.Timer((int)(delaytime1.Value * 1000));
-            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1, ShallDelete.Checked);
+            FileandTimer temp = new FileandTimer(timer1, e, Printer, printColor, printFont, printDocument1, ShallDelete.Checked, FileIsInQueue);
             // Hook up the Elapsed event for the timer. 
             temp.TimerOfFile.Elapsed += temp.Timer1Tick;
             temp.TimerOfFile.AutoReset = false;
@@ -166,8 +172,9 @@ namespace Filobserverwindow
             createdfiles.Remove(e.OldName);
             temp.Datei = e;
             createdfiles.Add(e.Name, temp);
-
         }
+
+        
 
         private void B_Fonts_Click(object sender, EventArgs e)
         {

@@ -29,7 +29,7 @@ namespace Filobserverwindow
         private Font printFont;
         private SolidBrush printColor;
         Printer Printer;
-        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DirPrint", "Save.txt");
+        string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DirPrint", "Save.XML");
 
         public MainForm()
         {
@@ -138,6 +138,14 @@ namespace Filobserverwindow
                 if (item1.printerSettings.Duplex == 0)
                 {
                     item1.printerSettings.Duplex = Duplex.Simplex;
+                }
+                try
+                {
+                    String test = item1.printerSettings.PrintFileName;
+                }
+                catch
+                {
+                    item1.printerSettings.PrintFileName = "document";
                 }
                 Tabsaves[i] = item1;
             }
