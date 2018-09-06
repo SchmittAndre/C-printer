@@ -18,8 +18,7 @@ namespace Filobserverwindow
         public SolidBrush printColor;
         private bool started;
         Printer Printer;
-        private PageSettings pageSettings;
-
+        private PageSettings pagesettings;
         public decimal Delaytime
         {
             get { return delaytime1.Value; }
@@ -45,7 +44,7 @@ namespace Filobserverwindow
             get { return this.printDocument1; }
         }
 
-        public PageSettings Pagesettings { get => pageSettings; set => pageSettings = value; }
+        public PageSettings Pagesettings { get => pagesettings; set => pagesettings = value; }
 
         public TabLayoutUC(Printer printer)
         {
@@ -71,7 +70,7 @@ namespace Filobserverwindow
             Pagesettings.PrinterSettings.PrintFileName = "does not matter, unused if PrintToFile == false";
         }
 
-        public TabLayoutUC(Printer printer, Font font, Color color,String path, bool started, decimal whaitTimer,PageSettings pageSettings)
+        public TabLayoutUC(Printer printer, Font font, Color color,String path, bool started, decimal whaitTimer)
         {
             InitializeComponent();
             printFont = font;
@@ -91,12 +90,9 @@ namespace Filobserverwindow
             printDocument1.DefaultPageSettings.Margins.Left = 0;
             printDocument1.DefaultPageSettings.Margins.Right = 0;
             printDocument1.DefaultPageSettings.Margins.Top = 55;
-            this.pageSettings = pageSettings;
-            printDocument1.PrinterSettings = this.pageSettings.PrinterSettings;
-            pageSetupDialog1.Document = printDocument1;
-            pageSetupDialog1.EnableMetric = true;
-            pageSetupDialog1.PageSettings = this.pageSettings;
-            pageSetupDialog1.PrinterSettings = this.pageSettings.PrinterSettings;
+            Pagesettings = new PageSettings();
+            Pagesettings.PrinterSettings.Duplex = Duplex.Default;
+            Pagesettings.PrinterSettings.PrintFileName = "does not matter, unused if PrintToFile == false";
         }
 
         private void Observerdialog_Click(object sender, EventArgs e)
@@ -188,6 +184,7 @@ namespace Filobserverwindow
             createdfiles.Remove(e.OldName);
             temp.Datei = e;
             createdfiles.Add(e.Name, temp);
+
         }
 
         private void B_Fonts_Click(object sender, EventArgs e)
@@ -209,6 +206,9 @@ namespace Filobserverwindow
 
         private void B_pageSettup_Click(object sender, EventArgs e)
         {
+            this.pageSetupDialog1.PageSettings = Pagesettings;
+            this.pageSetupDialog1.Document = this.printDocument1;
+            this.pageSetupDialog1.EnableMetric = true;
             this.pageSetupDialog1.ShowDialog();
         }
 
