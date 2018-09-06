@@ -10,7 +10,7 @@ namespace Filobserverwindow
 {
     public partial class TabLayoutUC : UserControl
     {
-        private static string observerdirstr;
+        private string observerdirstr;
         private FileSystemWatcher watcher1;
         private Dictionary<string, FileandTimer> createdfiles;
         private System.Timers.Timer timer1;
@@ -49,7 +49,7 @@ namespace Filobserverwindow
         public TabLayoutUC(Printer printer)
         {
             InitializeComponent();
-            printFont = new Font("Arial", 12);
+            printFont = new Font("Courier New", 11);
             printColor = new SolidBrush(Color.Black);
             Printer = printer;
             createdfiles = new Dictionary<string, FileandTimer>();

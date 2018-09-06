@@ -188,6 +188,12 @@ namespace Filobserverwindow
                     tabControl.TabPages.Remove(tabPageCurrent);
             }
         }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SaveIni(path);
+            MessageBox.Show("Konfiguration gespeichert");
+        }
     }
 
     public class MyRootClass
